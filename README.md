@@ -1,10 +1,10 @@
 ## toRpEDA
 
-<img src="man/figures/logo.png" align="right" width="150"/>
-
 **TL;DR**
 
 toRpEDA is a new automated data exploration package that simplifies the process of data analysis
+
+<img src="man/figures/torpeda.png" align="right" width="150"/>
 
 **About toRpEDA**
 
