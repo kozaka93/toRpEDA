@@ -4,7 +4,7 @@
 
 toRpEDA is a new automated data exploration package that simplifies the process of data analysis
 
-<img src="man/figures/torpeda.png" align="right" width="150"/>
+<img src="man/figures/torpeda.png" align="right" width="250"/>
 
 **About toRpEDA**
 
