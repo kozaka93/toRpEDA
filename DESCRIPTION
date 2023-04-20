@@ -3,7 +3,8 @@ Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
 Author: c(person("Antoni", "Chudy", role = c("aut")),
-person("Iza", "Danielewska",role = c("aut")),
+person("Iza", "Danielewska", role = c("aut")),
+person("Krzysztof", "Klopotowski", role = c("aut")),
 person("Grzegorz", "Pióro", role = c("aut")),
 person("Tymoteusz", "Kwiecinski", role=c("aut")),
 person("Marta", "Szuwarska", role=c("aut")),
@@ -15,9 +16,9 @@ person("Marcel", "Witas", role = c("aut")),
 person("Kacper", "Skonieczka", role = c("aut")),
 person("Mateusz", "Madej", role = c("aut")),
 person("Weronika", "Dyszkiewicz", role=c("aut")),
-person("Szymon","Gut",role = c("aut")),
+person("Szymon", "Gut", role = c("aut")),
 person("Arkadiusz", "Kniaź", role=c("out")),
-person("Maciej","Orsłowski",role = c("aut")))
+person("Maciej", "Orsłowski", role = c("aut")))
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
