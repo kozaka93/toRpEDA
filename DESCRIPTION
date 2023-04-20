@@ -2,7 +2,7 @@ Package: toRpEDA
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
+Author: person("Jakub", "Piwko", email="jakub.piwko2.stud@pw.edu.pl", role=c("aut"))
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
