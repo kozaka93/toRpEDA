@@ -18,7 +18,8 @@ person("Mateusz", "Madej", role = c("aut")),
 person("Weronika", "Dyszkiewicz", role=c("aut")),
 person("Szymon", "Gut", role = c("aut")),
 person("Arkadiusz", "Kniaź", role=c("out")),
-person("Maciej", "Orsłowski", role = c("aut")))
+person("Maciej", "Orsłowski", role = c("aut")),
+person("Malwina", "Wojewoda", role = c("aut")))
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
