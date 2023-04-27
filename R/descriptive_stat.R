@@ -5,16 +5,23 @@ library(dplyr)
 #' categorical variable has its stats stored in a separate data frame.
 #'
 #' @param df A data.frame object to analyse
+#' @param vars Variables to compute stats for. NULL means all variables
 #' @param include_long_catg Whether or not to include stats for categorical
 #' variables with more than 50 unique values
 #' @returns a list of data frames with descriptive statistics
 #' @examples
 #' get_descriptive_stat(iris)
+#' get_descriptive_stat(iris, vars = c('Petal.Length', 'Species'))
 #' get_descriptive_stat(iris, include_long_catg = TRUE)
-get_descriptive_stat <- function(df, include_long_catg = FALSE) {
+get_descriptive_stat <- function(df, vars = c(), include_long_catg = FALSE) {
   if (class(df) != 'data.frame') {
     stop('df parameter should be a data.frame')
   }
+  # use only specified variables
+  if (length(vars) > 0) {
+    df <- df %>% select(vars)
+  }
+
   # continuous stats names
   stats_continuous_names <- c(
     'min', 'max', 'mean', 'median', 'std', 'variance', 'Q1', 'Q3'
