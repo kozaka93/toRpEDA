@@ -2,26 +2,26 @@ Package: toRpEDA
 Type: Package
 Title: toRpEDA is a new automated data exploration package that simplifies the process of data analysis
 Version: 0.1.0
-Authors:
-    c(person("Anna", "Kozak", role = c("aut", "cre"),
-    person("Antoni", "Chudy", role = c("aut")),
-    person("Iza", "Danielewska", role = c("aut")),
-    person("Krzysztof", "Klopotowski", role = c("aut")),
-    person("Grzegorz", "Pióro", role = c("aut")),
-    person("Tymoteusz", "Kwiecinski", role=c("aut")),
-    person("Marta", "Szuwarska", role=c("aut")),
-    person("Paweł", "Drągowski", role=c("aut")),
-    person("Kinga","Frańczak", role = c("aut")),
-    person("Jakub", "Piwko", role=c("aut")),
-    person("Dominik", "Kędzierski", role = "aut")),
-    person("Marcel", "Witas", role = c("aut")),
-    person("Kacper", "Skonieczka", role = c("aut")),
-    person("Mateusz", "Madej", role = c("aut")),
-    person("Weronika", "Dyszkiewicz", role=c("aut")),
-    person("Szymon", "Gut", role = c("aut")),
-    person("Arkadiusz", "Kniaź", role=c("out")),
-    person("Maciej", "Orsłowski", role = c("aut")),
-    person("Malwina", "Wojewoda", role = c("aut")))
+Author: Anna Kozak [aut, cre],
+    Antoni Chudy [aut],
+     Iza Danielewska [aut],
+     Krzysztof Klopotowski [aut],
+     Grzegorz Pióro [aut],
+     Tymoteusz Kwiecinski [aut],
+     Marta Szuwarska [aut],
+     Paweł Drągowski [aut],
+     Kinga Frańczak [aut],
+     Jakub Piwko [aut],
+     Dominik Kędzierski [aut], 
+     Marcel Witas [aut],
+     Kacper Skonieczka [aut],
+     Mateusz Madej [aut],
+     Weronika Dyszkiewicz [aut],
+     Szymon Gut [aut],
+     Arkadiusz Kniaź [aut],
+     Maciej Orsłowski [aut],
+     Malwina Wojewoda [aut]
+Maintainer: Anna Kozak <anna.kozak@pw.edu.pl>
 Description: toRpEDA is a package designed to automate the data exploration process in R, 
     by providing users with a simple and efficient way to analyze and visualize data. 
     It includes a set of powerful tools and functions that enable users to quickly 
@@ -32,8 +32,7 @@ Description: toRpEDA is a package designed to automate the data exploration proc
     their data exploration process.
 License: GPL-3
 Imports:
-    dplyr
-    ggplot2
+  ggplot2
 Suggests:
     testthat (>= 3.0.0)
 URL: https://github.com/kozaka93/toRpEDA
