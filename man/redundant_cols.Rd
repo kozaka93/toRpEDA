@@ -20,12 +20,13 @@ are taken as default.}
 \item{correlated}{If `TRUE`, function treats highly correlated variables as redundant columns and also deletes
 them if `delete` is `TRUE`. `FALSE` as default.}
 
-\item{delete}{If `TRUE`, function returns data frame with deleted redundant 
+\item{delete}{If `TRUE`, function returns data frame with deleted redundant
 columns. `FALSE` as default.}
 }
 \value{
 If `delete` = `FALSE`, vector of names of redundant columns. Otherwise
-data frame with deleted redundant columns.
+data frame with deleted redundant columns. In case there are not any redundant
+columnm, `character(0)` is returned.
 }
 \description{
 redundant_cols`()` suggests redundant columns.
