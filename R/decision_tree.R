@@ -22,7 +22,7 @@
 #'
 #' @export
 
-decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5) {
+decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
   if(!is.data.frame(df))
     stop("df is not a data frame!")
   if(is.null(target)) # check if target exists, if not assign the last colname
@@ -45,14 +45,28 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   if(!is.numeric(cp)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
     stop("xval is not numeric")
 
+  if(!is.numeric(seed) || seed != round(seed)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+    stop("seed is not integer")
+
+  set.seed(seed)
 
   target_formula <- paste(target) # TODO maybe add some more options, like adding more columns or sth
   target_formula <- as.formula(paste(target_formula, "~ ."))
 
 
+  # perhaps here we should here split the data
+
+  sample_size <- 0.7
+
+  sample <- sample.int(n = nrow(df), size = floor(sample_size*nrow(df)), replace = F)
+  train <- df[sample, ]
+  test  <- df[-sample, ]
+
+  #
+
   # grow the decision tree
   mod <- rpart::rpart(target_formula,
-                      data = df,
+                      data = train,
                       method = "class",
                       control = rpart::rpart.control(maxdepth=maxdepth, minsplit=minsplit, cp=cp, xval=xval))
 
@@ -78,9 +92,19 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
     # calculate indexes for decision trees
 
-    tmp <- rpart::printcp(mod)
+    tmp <- mod$cptable
     r_square <- as.vector(1-tmp[,c(4)])
     r_square <- tail(r_square, 1)
+
+    t_val <- test[, target]
+
+    t_pred <- predict(mod, test, type="class")
+
+    confMat <- table(t_val,t_pred)
+
+    accuracy <- sum(diag(confMat))/sum(confMat)
+
+
 
     return(r_square) # for now returns only R^2 value
 
