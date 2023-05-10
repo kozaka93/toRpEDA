@@ -25,8 +25,16 @@
 decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
   if(!is.data.frame(df))
     stop("df is not a data frame!")
-  if(is.null(target)) # check if target exists, if not assign the last colname
+
+  if(ncol(df) < 2)
+    stop("number of columns is not sufficient")
+
+
+  if(is.null(target)) {# check if target exists, if not assign the last colname
     target = tail(colnames(df), n=1)
+    message(paste0("set target value to ", target))
+  }
+
   if(!target %in% colnames(df))
     stop("target is not one of df columns")
   if(!is.logical(categorical))
@@ -35,11 +43,11 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   if(!is.logical(showplot))
     stop("showplot is not logical")
 
-  if(!is.numeric(maxdepth) || maxdepth != round(maxdepth)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
-    stop("maxdepth is not integer")
-  if(!is.numeric(minsplit) || minsplit != round(minsplit)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
-    stop("minsplit is not integer")
-  if(!is.numeric(xval) || xval != round(xval)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+  if(!is.numeric(maxdepth)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+    stop("maxdepth is not numeric")
+  if(!is.numeric(minsplit)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+    stop("minsplit is not numeric")
+  if(!is.numeric(xval)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
     stop("xval is not integer")
 
   if(!is.numeric(cp)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
@@ -48,13 +56,30 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   if(!is.numeric(seed) || seed != round(seed)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
     stop("seed is not integer")
 
-  set.seed(seed)
+
+  if(minsplit != round(minsplit)){
+    minsplit = floor(minsplit)
+    message("minsplit is not integer, rounded the value")
+  }
+
+  if(maxdepth != round(maxdepth)){
+    maxdepth = floor(maxdepth)
+    message("maxdepth is not integer, rounded the value")
+  }
+
+  if(xval != round(xval)){
+    xval = floor(xval)
+    message("xval is not integer, rounded the value")
+  }
+
+
+  set.seed(seed) # for repeatability
+
 
   target_formula <- paste(target) # TODO maybe add some more options, like adding more columns or sth
   target_formula <- as.formula(paste(target_formula, "~ ."))
 
-
-  # perhaps here we should here split the data
+  # splitting the data
 
   sample_size <- 0.7
 
@@ -62,7 +87,10 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   train <- df[sample, ]
   test  <- df[-sample, ]
 
-  #
+
+
+
+
 
   # grow the decision tree
   mod <- rpart::rpart(target_formula,
@@ -92,26 +120,69 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
     # calculate indexes for decision trees
 
+
+    metrics <- list()
+
+    ## R_SQUARE
+
     tmp <- mod$cptable
+    print(tmp)
     r_square <- as.vector(1-tmp[,c(4)])
     r_square <- tail(r_square, 1)
 
-    t_val <- test[, target]
+    metrics$r_square <- r_square
 
-    t_pred <- predict(mod, test, type="class")
+    y_real <- test[, target]
 
-    confMat <- table(t_val,t_pred)
-
-    accuracy <- sum(diag(confMat))/sum(confMat)
+    y_pred <- predict(mod, test, type="class")
 
 
+    if(categorical == TRUE) {
 
-    return(r_square) # for now returns only R^2 value
+      t <- table(y_real,y_pred)
+
+      metrics$accuracy <- sum(diag(t))/sum(t)
+
+      # balanced accuracy
+
+      #with np.errstate(divide="ignore", invalid="ignore"):
+      per_class = diag(t) / colSums(t)
+      if(all(is.na(per_class)))
+        message("y_pred contains classes not in y_true")
+      per_class = per_class[~np.isnan(per_class)]
+      score = np.mean(per_class)
+      #if adjusted:
+        n_classes = len(per_class)
+      chance = 1 / n_classes
+      #score -= chance
+      #score /= 1 - chance
+
+
+      return(metrics)
+
+    }
+    else {
+
+      return(metrics)
+    }
 
 
   } else {
-    plot_text("can't grow decision tree")
     stop("unable to frow decision tree")
   }
+
+}
+
+
+accuracy <- function(y_real, y_pred) {
+  confMat <- table(y_real,y_pred)
+
+  accuracy <- sum(diag(confMat))/sum(confMat)
+}
+
+precision <- function(y_real, y_pred) {
+  t <- table(y_real, y_pred)
+
+  precision <- t[2,2] / (t[2,2] + t[1,2])
 
 }
