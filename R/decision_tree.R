@@ -2,7 +2,8 @@
 #'
 #' @param df Data frame.
 #' @param target Column name which values function predicts. By default the last column
-#' @param categorical If `TRUE`, function builds categorical tree, builds regression tree otherwise
+#' @param categorical If `TRUE`, function builds categorical tree, builds regression tree otherwise.
+#' If building regression tree and target column is not numeric, casting the column to numeric values.
 #' `TRUE` by default.
 #'
 #' @param showplot If `TRUE` displays decision tree with plot function from rpart.plot package. By default `TRUE`
@@ -15,10 +16,13 @@
 #' Default value is `0.01`
 #' @param xval Number of cross-validation. Default value is `5`
 #'
+#'
+#' @param seed Random seed, provides repeatability for the tree output. By default `44`
+#'
 #' @examples
 #' library("toRpEDA")
 #' decision_tree(iris, "Species")
-#' decision_tree(iris, delete = TRUE)
+#' decision_tree(longley, categorical = FALSE)
 #'
 #' @export
 
@@ -56,6 +60,14 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   if(!is.numeric(seed) || seed != round(seed)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
     stop("seed is not integer")
 
+  if(!categorical && !is.numeric(df[, target])) { # if regression model
+    message("target is not numeric, converting to numeric")
+
+
+    df[, target] <- as.numeric(df[ , target])
+
+  }
+
 
   if(minsplit != round(minsplit)){
     minsplit = floor(minsplit)
@@ -75,7 +87,6 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
   set.seed(seed) # for repeatability
 
-
   target_formula <- paste(target) # TODO maybe add some more options, like adding more columns or sth
   target_formula <- as.formula(paste(target_formula, "~ ."))
 
@@ -87,15 +98,12 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   train <- df[sample, ]
   test  <- df[-sample, ]
 
-
-
-
-
+  method <- ifelse(categorical, "class", "anova")
 
   # grow the decision tree
   mod <- rpart::rpart(target_formula,
                       data = train,
-                      method = "class",
+                      method = method,
                       control = rpart::rpart.control(maxdepth=maxdepth, minsplit=minsplit, cp=cp, xval=xval))
 
 
@@ -118,71 +126,58 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
                              left = TRUE)
     } # plot tree
 
-    # calculate indexes for decision trees
-
+    # calculate metrics for decision tree
 
     metrics <- list()
 
-    ## R_SQUARE
+    ## r_square metric
 
     tmp <- mod$cptable
-    print(tmp)
-    r_square <- as.vector(1-tmp[,c(4)])
-    r_square <- tail(r_square, 1)
+    r_squared <- as.vector(1-tmp[,c(4)])
+    r_squared <- tail(r_squared, 1)
 
-    metrics$r_square <- r_square
+    metrics$r_squared <- r_squared
+
+    # predictions
+    pred_method <- ifelse(categorical, "class", "vector")
 
     y_real <- test[, target]
+    y_pred <- predict(mod, test, type=pred_method)
 
-    y_pred <- predict(mod, test, type="class")
+    # calculating support
+    metrics$train_support <- nrow(train)
+    metrics$test_support <- nrow(test)
 
 
     if(categorical == TRUE) {
-
       t <- table(y_real,y_pred)
-
       metrics$accuracy <- sum(diag(t))/sum(t)
 
       # balanced accuracy
 
-      #with np.errstate(divide="ignore", invalid="ignore"):
       per_class = diag(t) / colSums(t)
-      if(all(is.na(per_class)))
+      if(any(is.na(per_class)))
         message("y_pred contains classes not in y_true")
-      per_class = per_class[~np.isnan(per_class)]
-      score = np.mean(per_class)
-      #if adjusted:
-        n_classes = len(per_class)
-      chance = 1 / n_classes
-      #score -= chance
-      #score /= 1 - chance
+      per_class <-  per_class[!is.na(per_class)]
+      metrics$balanced_accuracy = mean(per_class)
 
 
       return(metrics)
 
     }
-    else {
+    else { # if categorical == FALSE
+      # calculate metrics for regression model
+
+      # RMSE
+      metrics$RMSE <- mean((y_real - y_pred)^2)
+
 
       return(metrics)
-    }
+    } # endif categorical
 
 
   } else {
-    stop("unable to frow decision tree")
+    stop("unable to grow decision tree")
   }
-
-}
-
-
-accuracy <- function(y_real, y_pred) {
-  confMat <- table(y_real,y_pred)
-
-  accuracy <- sum(diag(confMat))/sum(confMat)
-}
-
-precision <- function(y_real, y_pred) {
-  t <- table(y_real, y_pred)
-
-  precision <- t[2,2] / (t[2,2] + t[1,2])
 
 }
