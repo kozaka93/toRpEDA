@@ -2,12 +2,13 @@
 % Please edit documentation in R/redundant_cols.R
 \name{redundant_cols}
 \alias{redundant_cols}
-\title{redundant_cols`()` suggests redundant columns.}
+\title{redundant_cols`()` suggests redundant columns and deletes them if requested.}
 \usage{
 redundant_cols(
   df,
   variables = colnames(df),
   correlated = FALSE,
+  corr_treshold = NULL,
   delete = FALSE
 )
 }
@@ -17,23 +18,45 @@ redundant_cols(
 \item{variables}{Vector of names of variables to consider. All of variables
 are taken as default.}
 
-\item{correlated}{If `TRUE`, function treats highly correlated variables as redundant columns and also deletes
-them if `delete` is `TRUE`. `FALSE` as default.}
+\item{correlated}{If `TRUE`, function treats highly correlated variables as
+redundant columns and also deletes them if `delete` is `TRUE`. `FALSE` as default.}
+
+\item{corr_treshold}{Number between 0 and 1 that defines high correlation.
+`0.9` as default, meaning columns with correlation above `0.9` will be treated
+as redundant.}
 
 \item{delete}{If `TRUE`, function returns data frame with deleted redundant
-columns. `FALSE` as default.}
+columns. It also includes columns skipped in `variables`. `FALSE` as default.}
 }
 \value{
 If `delete` = `FALSE`, vector of names of redundant columns. Otherwise
 data frame with deleted redundant columns. In case there are not any redundant
-columnm, `character(0)` is returned.
+columns, `character(0)` is returned.
 }
 \description{
-redundant_cols`()` suggests redundant columns.
+redundant_cols`()` suggests redundant columns and deletes them if requested.
 }
 \examples{
 library("toRpEDA")
-redundant_cols(iris)
-redundant_cols(iris, c("Sepal.Length","Sepal.Width","Species"), delete = TRUE)
+
+# finding index and static columns
+df <- iris
+df$index <- 1:NROW(df)
+df$static <- 5
+redundant_cols(df)
+
+# deleting redundant columns
+df <- redundant_cols(df, delete = TRUE)
+
+# finding highly correlated columns
+df <- mtcars
+df$variable <- df$hp * 5
+redundant_cols(df, correlated = TRUE)
+redundant_cols(df, corr_treshold = 0.8)
+
+# finding duplicated columns
+df <- iris
+df$something <- df$Sepal.Length
+redundant_cols(df)
 
 }

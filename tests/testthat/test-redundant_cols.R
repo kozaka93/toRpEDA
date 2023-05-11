@@ -23,12 +23,16 @@ test_that("errors work", {
   expect_error(redundant_cols(iris, variables = c()))
   expect_error(redundant_cols(iris, delete = "Yes"))
   expect_error(redundant_cols(iris, correlated = "Yes"))
+  expect_error(redundant_cols(data.frame()))
 })
 
 test_that("messages work", {
-  expect_message(redundant_cols(data.frame()))
   expect_message(redundant_cols(iris, variables = "variable"))
   expect_message(redundant_cols(iris, variables = ""))
+  expect_message(redundant_cols(iris, corr_treshold = "something"))
+  expect_message(redundant_cols(iris, corr_treshold = c(0,1)))
+  expect_message(redundant_cols(iris, corr_treshold = 1.5))
+  expect_message(redundant_cols(iris, corr_treshold = -0.5))
 })
 
 test_that("result is a list when delete = TRUE", {
@@ -53,4 +57,10 @@ test_that("finding duplicate columns works", {
   df <- iris
   df$something <- df$Sepal.Length
   expect_equal(redundant_cols(df), "something")
+})
+
+test_that("corr_treshold works without setting correlated", {
+  df <- mtcars
+  df$variable <- df$hp * 5
+  expect_equal(redundant_cols(df, corr_treshold = 0.8), c("cyl", "hp"))
 })
