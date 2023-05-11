@@ -1,5 +1,34 @@
 library(ggplot2)
 library(patchwork)
+#'plot_hist_vars
+#'@description
+#'The plot_hist_vars function creates a series of histogram plots for
+#'the numeric variables of a data frame. The function allows users to
+#'specify which variables to include in the plots and how many plots to display
+#'per page. The function makes use of the ggplot2 and patchwork packages to
+#'create the plots and combine them into a single page.
+#'
+#'@param data a data frame
+#'@param vars a character vector of variable names to include in the plots.
+#'If NULL (default), all numeric variables are used.
+#'@param plots_per_page an integer indicating the number of plots to display per
+#'page. Default is 6.
+#'@returns series of histogram plots to the R console.
+#'@examples
+#'library(ggplot2)
+#'library(patchwork)
+#'
+#'data(mtcars)
+#'plot_hist_vars(mtcars, c("mpg", "cyl"))
+#'
+#'data(mtcars)
+#'plot_hist_vars(mtcars)
+#'
+#'data(iris)
+#'plot_hist_vars(iris, c("Sepal.Length", "Petal.Length", "Species"))
+#'
+#'data(iris)
+#'plot_hist_vars(iris)
 
 
 plot_hist_vars <- function(data, vars, plots_per_page = 6) {
