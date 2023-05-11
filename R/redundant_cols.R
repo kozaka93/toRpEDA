@@ -50,9 +50,9 @@ redundant_cols <- function(df, variables = colnames(df), correlated = FALSE, del
 
   for(col in variables) {
     n_unique <- dplyr::n_distinct(df[,col], na.rm = TRUE)
-    if(n_unique == n | n_unique == 1 ) {
+    if(n_unique == n | n_unique == 1) {
       cols <- c(cols, col)
-      df <- select(df, -col)
+      df <- dplyr::select(df, -col)
     }
   }
   if(correlated) {
