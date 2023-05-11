@@ -1,8 +1,9 @@
 #' decision_tree`()` Builds decision tree on given data. Returns metrics for the tree and optionally plots the tree.
 #'
 #' @param df Data frame.
+#' @param variables column names of given dataframe
 #' @param target Column name which values function predicts. By default the last column
-#' @param categorical If `TRUE`, function builds categorical tree, builds regression tree otherwise.
+#' @param classification If `TRUE`, function builds classification tree, builds regression tree otherwise.
 #' If building regression tree and target column is not numeric, casting the column to numeric values.
 #' `TRUE` by default.
 #'
@@ -12,7 +13,8 @@
 #' @param minsplit The minimum number of observations that must exist in a node in order for a split to be attempted. Default value is `20`
 #' @param cp Complexity parameter. Any split that does not decrease the overall lack of fit by a factor of cp is not attempted.
 #' The main role of this parameter is to save computing time by pruning off splits that are obviously not worthwhile.
-#' Essentially,the user informs the program that any split which does not improve the fit by cp will likely be pruned off by cross-validation, and that hence the program need not pursue it.
+#' Essentially, the user informs the program that any split which does not improve the fit by cp will likely be pruned off by cross-validation,
+#' and that hence the program need not pursue it.
 #' Default value is `0.01`
 #' @param xval Number of cross-validation. Default value is `5`
 #'
@@ -22,11 +24,15 @@
 #' @examples
 #' library("toRpEDA")
 #' decision_tree(iris, "Species")
-#' decision_tree(USArrests, categorical = FALSE)
+#' decision_tree(USArrests, classification = FALSE)
+#'
+#' @return returns a list with calculated metrics for the given predictions and support - number of observations in test and train dataset.
+#' These dataframes are splitted using `sample.int` function, using 70/30 proportion.
+#' Calculated metrics are:, for classification problem  accuracy and balanced accuracy, for regression - RMSE.
 #'
 #' @export
 
-decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
+decision_tree <- function(df, target = NULL, classification = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
   if(!is.data.frame(df))
     stop("df is not a data frame!")
 
@@ -35,14 +41,14 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
 
   if(is.null(target)) {# check if target exists, if not assign the last colname
-    target = tail(colnames(df), n=1)
+    target = colnames(df)[length(colnames(df))]
     message(paste0("set target value to ", target))
   }
 
   if(!target %in% colnames(df))
     stop("target is not one of df columns")
-  if(!is.logical(categorical))
-    stop("categorical is not logical")
+  if(!is.logical(classification))
+    stop("classification is not logical")
 
   if(!is.logical(showplot))
     stop("showplot is not logical")
@@ -52,15 +58,15 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   if(!is.numeric(minsplit))
     stop("minsplit is not numeric")
   if(!is.numeric(xval))
-    stop("xval is not integer")
-
-  if(!is.numeric(cp))
     stop("xval is not numeric")
+
+  if(!is.numeric(cp) & cp > 0)
+    stop("cp is not positive numeric")
 
   if(!is.numeric(seed) || seed != round(seed))
     stop("seed is not integer")
 
-  if(!categorical && !is.numeric(df[, target])) { # if regression model
+  if(!classification && !is.numeric(df[, target])) { # if it is a regression model
     message("target is not numeric, converting to numeric")
 
     df[, target] <- as.numeric(df[ , target])
@@ -85,7 +91,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   set.seed(seed) # for repeatability
 
   target_formula <- paste(target) # maybe here I can add some more options, like adding more columns or sth
-  target_formula <- as.formula(paste(target_formula, "~ ."))
+  target_formula <- stats::as.formula(paste(target_formula, "~ ."))
 
   # splitting the data
 
@@ -95,7 +101,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   train <- df[sample, ]
   test  <- df[-sample, ]
 
-  method <- ifelse(categorical, "class", "anova")
+  method <- ifelse(classification, "class", "anova")
 
   # grow the decision tree
   tree <- rpart::rpart(target_formula,
@@ -128,17 +134,17 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
     metrics <- list()
 
     # predictions
-    pred_method <- ifelse(categorical, "class", "vector")
+    pred_method <- ifelse(classification, "class", "vector")
 
     y_real <- test[, target]
-    y_pred <- predict(tree, test, type=pred_method)
+    y_pred <- stats::predict(tree, test, type=pred_method)
 
     # calculating support
     metrics$train_support <- nrow(train)
     metrics$test_support <- nrow(test)
 
 
-    if(categorical == TRUE) {
+    if(classification == TRUE) {
       t <- table(y_real,y_pred)
       metrics$accuracy <- sum(diag(t))/sum(t)
 
@@ -153,7 +159,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
       return(metrics)
 
     }
-    else { # if categorical == FALSE
+    else { # if classification == FALSE
       # calculate metrics for regression model
 
 
@@ -162,7 +168,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
 
       return(metrics)
-    } # endif categorical
+    } # endif classification
 
   } else {
     stop("unable to grow decision tree")
