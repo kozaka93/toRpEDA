@@ -46,7 +46,6 @@ redundant_cols <-
            correlated = FALSE,
            corr_treshold = NULL,
            delete = FALSE) {
-
     # checking if all parameters are appropriate
     if (!is.data.frame(df))
       stop("df is not a data frame!")
@@ -81,10 +80,10 @@ redundant_cols <-
       message("corr_treshold is not a proper number between 0 and 1; changing it to 0.9")
       corr_treshold <- 0.9
     }
-    if(correlated)
+    if (correlated)
       corr_treshold <- 0.9
 
-      # skipping columns not provided in variables parameter
+    # skipping columns not provided in variables parameter
     original_df <- df
     df <- dplyr::select(df, dplyr::all_of(variables))
 
@@ -98,7 +97,10 @@ redundant_cols <-
     n <- NROW(df)
     for (col in variables) {
       n_unique <- dplyr::n_distinct(df[, col], na.rm = TRUE)
-      if (n_unique == n | n_unique == 1) {
+      if (any(all(n_unique == n,
+                  !(is.numeric(df[, col]) &&
+                       any(df[, col] != round(df[, col])))),
+              n_unique == 1)) {
         cols <- c(cols, col)
         df <- dplyr::select(df,-col)
       }
@@ -112,7 +114,8 @@ redundant_cols <-
       # finding columns with correlation above 0.9
       highly_correlated <-
         which(abs(cor_matrix) > corr_treshold &
-                upper.tri(cor_matrix), arr.ind = TRUE)
+                upper.tri(cor_matrix),
+              arr.ind = TRUE)
       highly_correlated <-
         unique(unlist(dimnames(highly_correlated)[1]))
       cols <- c(cols, highly_correlated)
@@ -120,7 +123,7 @@ redundant_cols <-
     }
 
     # informing about lack of redundant columns
-    if(length(cols) == 0)
+    if (length(cols) == 0)
       message("There are no redundant columns")
 
     # deleting columns if requested

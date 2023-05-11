@@ -64,3 +64,10 @@ test_that("corr_treshold works without setting correlated", {
   df$variable <- df$hp * 5
   expect_equal(redundant_cols(df, corr_treshold = 0.8), c("cyl", "hp"))
 })
+
+test_that("columns with unique float values aren't treated as index", {
+  df <- iris
+  df$col1 <- df$Sepal.Length + rnorm(length(df$Sepal.Length), 0, 0.3)
+  df$col2 <- df$Sepal.Length + rnorm(length(df$Sepal.Length), 0, 1)
+  expect_equal(redundant_cols(df, correlated = TRUE), c("Petal.Length", "Sepal.Length"))
+})
