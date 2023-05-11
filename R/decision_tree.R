@@ -43,6 +43,8 @@ decision_tree <- function(df, variables = colnames(df), target = NULL, classific
     variables = colnames(df)
   }
 
+  df = df[variables]
+
   if(ncol(df) < 2)
     stop("number of columns is not sufficient")
 
@@ -93,6 +95,7 @@ decision_tree <- function(df, variables = colnames(df), target = NULL, classific
     xval = floor(xval)
     message("xval is not integer, rounded the value")
   }
+
 
 
   set.seed(seed) # for repeatability
