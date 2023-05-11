@@ -1,4 +1,4 @@
-#' decision_tree`()` suggests redundant columns.
+#' decision_tree`()` Builds decision tree on given data. Returns metrics for the tree ando ptionally plots the tree.
 #'
 #' @param df Data frame.
 #' @param target Column name which values function predicts. By default the last column
