@@ -1,4 +1,4 @@
-#' decision_tree`()` Builds decision tree on given data. Returns metrics for the tree ando ptionally plots the tree.
+#' decision_tree`()` Builds decision tree on given data. Returns metrics for the tree and optionally plots the tree.
 #'
 #' @param df Data frame.
 #' @param target Column name which values function predicts. By default the last column
@@ -127,14 +127,6 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
     metrics <- list()
 
-    ## r_square metric
-
-    tmp <- tree$cptable
-    r_squared <- as.vector(1-tmp[,c(4)])
-    r_squared <- tail(r_squared, 1)
-
-    metrics$r_squared <- r_squared
-
     # predictions
     pred_method <- ifelse(categorical, "class", "vector")
 
@@ -163,6 +155,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
     }
     else { # if categorical == FALSE
       # calculate metrics for regression model
+
 
       # RMSE
       metrics$RMSE <- mean((y_real - y_pred)^2)
