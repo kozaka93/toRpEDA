@@ -6,6 +6,7 @@
 \usage{
 decision_tree(
   df,
+  variables = colnames(df),
   target = NULL,
   classification = TRUE,
   showplot = TRUE,
@@ -18,6 +19,8 @@ decision_tree(
 }
 \arguments{
 \item{df}{Data frame.}
+
+\item{variables}{column names of given dataframe to process. By default all colnames of dataframe.}
 
 \item{target}{Column name which values function predicts. By default the last column}
 
@@ -40,8 +43,6 @@ Default value is `0.01`}
 \item{xval}{Number of cross-validation. Default value is `5`}
 
 \item{seed}{Random seed, provides repeatability for the tree output. By default `44`}
-
-\item{variables}{column names of given dataframe}
 }
 \value{
 returns a list with calculated metrics for the given predictions and support - number of observations in test and train dataset.

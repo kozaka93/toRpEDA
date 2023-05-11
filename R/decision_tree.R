@@ -1,7 +1,7 @@
 #' decision_tree`()` Builds decision tree on given data. Returns metrics for the tree and optionally plots the tree.
 #'
 #' @param df Data frame.
-#' @param variables column names of given dataframe
+#' @param variables column names of given dataframe to process. By default all colnames of dataframe.
 #' @param target Column name which values function predicts. By default the last column
 #' @param classification If `TRUE`, function builds classification tree, builds regression tree otherwise.
 #' If building regression tree and target column is not numeric, casting the column to numeric values.
@@ -32,9 +32,16 @@
 #'
 #' @export
 
-decision_tree <- function(df, target = NULL, classification = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
+decision_tree <- function(df, variables = colnames(df), target = NULL, classification = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
   if(!is.data.frame(df))
     stop("df is not a data frame!")
+
+  if(!is.character(variables))
+    stop("variables is not a character vector!")
+  else if(!all(variables %in% colnames(df))) {
+    message("chosen variables do not exist in dataframe, all variables will be taken")
+    variables = colnames(df)
+  }
 
   if(ncol(df) < 2)
     stop("number of columns is not sufficient")
