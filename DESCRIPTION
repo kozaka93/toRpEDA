@@ -20,7 +20,8 @@ Author: Anna Kozak [aut, cre],
      Szymon Gut [aut],
      Arkadiusz Kniaź [aut],
      Maciej Orsłowski [aut],
-     Malwina Wojewoda [aut]
+     Malwina Wojewoda [aut],
+     Laura Hoang [aut]
 Maintainer: Anna Kozak <anna.kozak@pw.edu.pl>
 Description: toRpEDA is a package designed to automate the data exploration process in R, 
     by providing users with a simple and efficient way to analyze and visualize data. 
