@@ -22,7 +22,7 @@
 #' @examples
 #' library("toRpEDA")
 #' decision_tree(iris, "Species")
-#' decision_tree(longley, categorical = FALSE)
+#' decision_tree(USArrests, categorical = FALSE)
 #'
 #' @export
 
@@ -49,25 +49,22 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
   if(!is.numeric(maxdepth)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
     stop("maxdepth is not numeric")
-  if(!is.numeric(minsplit)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+  if(!is.numeric(minsplit))
     stop("minsplit is not numeric")
-  if(!is.numeric(xval)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+  if(!is.numeric(xval))
     stop("xval is not integer")
 
-  if(!is.numeric(cp)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+  if(!is.numeric(cp))
     stop("xval is not numeric")
 
-  if(!is.numeric(seed) || seed != round(seed)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
+  if(!is.numeric(seed) || seed != round(seed))
     stop("seed is not integer")
 
   if(!categorical && !is.numeric(df[, target])) { # if regression model
     message("target is not numeric, converting to numeric")
 
-
     df[, target] <- as.numeric(df[ , target])
-
   }
-
 
   if(minsplit != round(minsplit)){
     minsplit = floor(minsplit)
@@ -87,7 +84,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
   set.seed(seed) # for repeatability
 
-  target_formula <- paste(target) # TODO maybe add some more options, like adding more columns or sth
+  target_formula <- paste(target) # maybe here I can add some more options, like adding more columns or sth
   target_formula <- as.formula(paste(target_formula, "~ ."))
 
   # splitting the data
@@ -101,7 +98,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
   method <- ifelse(categorical, "class", "anova")
 
   # grow the decision tree
-  mod <- rpart::rpart(target_formula,
+  tree <- rpart::rpart(target_formula,
                       data = train,
                       method = method,
                       control = rpart::rpart.control(maxdepth=maxdepth, minsplit=minsplit, cp=cp, xval=xval))
@@ -110,9 +107,9 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
 
   # check if tree exists
-  if(nrow(mod$frame) > 1)  {
+  if(nrow(tree$frame) > 1)  {
     if(showplot){
-      rpart.plot::rpart.plot(mod,
+      rpart.plot::rpart.plot(tree,
                              main = paste0("Decision tree for target column ", target),
                              prefix="target = ",       # prefix text in first line in node
                              type=2,                   # 2: split variable name under box, 5: split variable name in the interior nodes
@@ -132,7 +129,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
     ## r_square metric
 
-    tmp <- mod$cptable
+    tmp <- tree$cptable
     r_squared <- as.vector(1-tmp[,c(4)])
     r_squared <- tail(r_squared, 1)
 
@@ -142,7 +139,7 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
     pred_method <- ifelse(categorical, "class", "vector")
 
     y_real <- test[, target]
-    y_pred <- predict(mod, test, type=pred_method)
+    y_pred <- predict(tree, test, type=pred_method)
 
     # calculating support
     metrics$train_support <- nrow(train)
@@ -161,7 +158,6 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
       per_class <-  per_class[!is.na(per_class)]
       metrics$balanced_accuracy = mean(per_class)
 
-
       return(metrics)
 
     }
@@ -174,7 +170,6 @@ decision_tree <- function(df, target = NULL, categorical = TRUE, showplot=TRUE, 
 
       return(metrics)
     } # endif categorical
-
 
   } else {
     stop("unable to grow decision tree")
