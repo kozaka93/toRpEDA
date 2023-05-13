@@ -6,8 +6,8 @@
 \usage{
 decision_tree(
   df,
-  variables = colnames(df),
   target = NULL,
+  variables = colnames(df),
   classification = TRUE,
   showplot = TRUE,
   maxdepth = 10,
@@ -20,9 +20,9 @@ decision_tree(
 \arguments{
 \item{df}{Data frame.}
 
-\item{variables}{column names of given dataframe to process. By default all colnames of dataframe.}
-
 \item{target}{Column name which values function predicts. By default the last column}
+
+\item{variables}{column names of given dataframe to process. By default all colnames of dataframe.}
 
 \item{classification}{If `TRUE`, function builds classification tree, builds regression tree otherwise.
 If building regression tree and target column is not numeric, casting the column to numeric values.
@@ -54,7 +54,7 @@ decision_tree`()` Builds decision tree on given data. Returns metrics for the tr
 }
 \examples{
 library("toRpEDA")
-decision_tree(iris, "Species")
+decision_tree(iris, target = "Species")
 decision_tree(USArrests, classification = FALSE)
 
 }

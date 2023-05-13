@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' library("toRpEDA")
-#' decision_tree(iris, "Species")
+#' decision_tree(iris, target = "Species")
 #' decision_tree(USArrests, classification = FALSE)
 #'
 #' @return returns a list with calculated metrics for the given predictions and support - number of observations in test and train dataset.
@@ -32,13 +32,13 @@
 #'
 #' @export
 
-decision_tree <- function(df, variables = colnames(df), target = NULL, classification = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
+decision_tree <- function(df, target = NULL, variables = colnames(df), classification = TRUE, showplot=TRUE, maxdepth = 10, minsplit = 20, cp = 0.01, xval = 5, seed=44) {
   if(!is.data.frame(df))
     stop("df is not a data frame!")
 
   if(!is.character(variables))
     stop("variables is not a character vector!")
-  else if(!all(variables %in% colnames(df))) {
+  if(!all(variables %in% colnames(df))) {
     message("chosen variables do not exist in dataframe, all variables will be taken")
     variables = colnames(df)
   }
@@ -64,12 +64,12 @@ decision_tree <- function(df, variables = colnames(df), target = NULL, classific
 
   if(!is.numeric(maxdepth)) # i'm not sure if I should check all the possibilites - the rpart function should handle the errors
     stop("maxdepth is not numeric")
-  if(!is.numeric(minsplit))
-    stop("minsplit is not numeric")
-  if(!is.numeric(xval))
-    stop("xval is not numeric")
+  if(!is.numeric(minsplit) | minsplit <= 0)
+    stop("minsplit is not positive numeric")
+  if(!is.numeric(xval) | xval <= 0)
+    stop("xval is not positive numeric")
 
-  if(!is.numeric(cp) & cp > 0)
+  if(!is.numeric(cp) | cp > 0)
     stop("cp is not positive numeric")
 
   if(!is.numeric(seed) || seed != round(seed))
@@ -86,6 +86,9 @@ decision_tree <- function(df, variables = colnames(df), target = NULL, classific
     message("minsplit is not integer, rounded the value")
   }
 
+
+
+
   if(maxdepth != round(maxdepth)){
     maxdepth = floor(maxdepth)
     message("maxdepth is not integer, rounded the value")
@@ -94,6 +97,11 @@ decision_tree <- function(df, variables = colnames(df), target = NULL, classific
   if(xval != round(xval)){
     xval = floor(xval)
     message("xval is not integer, rounded the value")
+  }
+
+
+  if(nrow(unique(df[target])) == 1){
+    stop("target column has only one value - can't grow a decision tree")
   }
 
 
@@ -110,6 +118,22 @@ decision_tree <- function(df, variables = colnames(df), target = NULL, classific
   sample <- sample.int(n = nrow(df), size = floor(sample_size*nrow(df)), replace = F)
   train <- df[sample, ]
   test  <- df[-sample, ]
+
+  y_train <- train[, target]
+  y_real <- test[, target]
+
+  if(classification && !all(y_real %in% y_train)) {
+    stop(paste0("Test target  contains classes that do not appear in the train target\n",
+                "Try running the code once again in case classes are imbalanced.\n",
+                "Or maybe you want to grow a regression tree?"))
+  }
+
+  if(minsplit > nrow(train)) {
+    message(paste0("minsplit value is too big, it can't be larger that number of observations.",
+                   "Setting minsplit to the number of train dataframe rows - ", nrow(train),
+                   "Train dataframe contains 70% observations from the original data "))
+    minsplit = nrow(train)
+  }
 
   method <- ifelse(classification, "class", "anova")
 
@@ -146,7 +170,6 @@ decision_tree <- function(df, variables = colnames(df), target = NULL, classific
     # predictions
     pred_method <- ifelse(classification, "class", "vector")
 
-    y_real <- test[, target]
     y_pred <- stats::predict(tree, test, type=pred_method)
 
     # calculating support
