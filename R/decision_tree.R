@@ -69,7 +69,7 @@ decision_tree <- function(df, target = NULL, variables = colnames(df), classific
   if(!is.numeric(xval) | xval <= 0)
     stop("xval is not positive numeric")
 
-  if(!is.numeric(cp) | cp > 0)
+  if(!is.numeric(cp) | cp <= 0)
     stop("cp is not positive numeric")
 
   if(!is.numeric(seed) || seed != round(seed))
@@ -129,9 +129,9 @@ decision_tree <- function(df, target = NULL, variables = colnames(df), classific
   }
 
   if(minsplit > nrow(train)) {
-    message(paste0("minsplit value is too big, it can't be larger that number of observations.",
+    message(paste0("minsplit value is too big, it can't be larger than number of observations.",
                    "Setting minsplit to the number of train dataframe rows - ", nrow(train),
-                   "Train dataframe contains 70% observations from the original data "))
+                   "Train dataframe contains 70% of observations from the original data "))
     minsplit = nrow(train)
   }
 
