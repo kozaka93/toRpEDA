@@ -1,5 +1,3 @@
-library(dplyr)
-
 #' Generates descriptive statistics for a given data frame.
 #' Continuous variables stats are grouped in a single data frame while each
 #' categorical variable has its stats stored in a separate data frame.
@@ -13,13 +11,13 @@ library(dplyr)
 #' get_descriptive_stat(iris)
 #' get_descriptive_stat(iris, vars = c('Petal.Length', 'Species'))
 #' get_descriptive_stat(iris, include_long_catg = TRUE)
-get_descriptive_stat <- function(df, vars = c(), include_long_catg = FALSE) {
+get_descriptive_stat <- function(df, vars = NULL, include_long_catg = FALSE) {
   if (class(df) != 'data.frame') {
     stop('df parameter should be a data.frame')
   }
   # use only specified variables
   if (length(vars) > 0) {
-    df <- df %>% select(vars)
+    df <- df[vars]
   }
 
   # continuous stats names
