@@ -46,24 +46,29 @@ plot_hist_vars <- function(data, vars, plots_per_page = 6) {
 
     all_data_by_user_idx <- names(data) %in% vars
 
-    data_by_user <- data[, all_data_by_user_idx]
+    data_by_user <- data[, all_data_by_user_idx, drop=FALSE]
 
     numeric_vars_by_user_idx <- all_numeric_vars_idx & all_data_by_user_idx
 
     check_if_numeric_user_data <- sapply(data_by_user, is.numeric)
 
+    if (!any(check_if_numeric_user_data)) {
+      warning("None of specified columns are numeric")
+      return(NULL)
+    }
+
     if (!all(check_if_numeric_user_data)) {
       warning(paste("Following columns are not numeric:", paste(names(data_by_user)[!check_if_numeric_user_data], collapse = ", ")))
     }
 
-    data_numeric <- data[, numeric_vars_by_user_idx]
+    data_numeric <- data[, numeric_vars_by_user_idx, drop=FALSE]
   }
 
   plots <- vector("list", ncol(data_numeric))
 
   for (i in 1:ncol(data_numeric)) {
       plot <-  ggplot(data = data_numeric, aes_string(x = colnames(data_numeric)[i])) +
-               geom_histogram(fill = "#F8766D", alpha = 0.8) +
+               geom_histogram(fill = "#F8766D", alpha = 0.8, bins=30) +
                labs(title = colnames(data_numeric)[i], x = "Value", y = "Frequency") +
                ggtitle(paste("Histogram of", colnames(data_numeric)[i])) +
                xlab(colnames(data_numeric)[i])
@@ -79,11 +84,7 @@ plot_hist_vars <- function(data, vars, plots_per_page = 6) {
     page <- wrap_plots(page_plots, nrow = 2, ncol = 3)
     print(page)
   }
+
+  return(plots)
 }
-
-
-
-data(mtcars)
-plot_hist_vars(mtcars, c("mpg", "cyl"))
-plot_hist_vars(iris, c("Sepal.Length", "Petal.Length", "Species"))
 
