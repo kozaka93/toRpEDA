@@ -33,6 +33,10 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
   if (!is.matrix(data) & !is.data.frame(data)) {
     stop("Argument 'data' must be a data frame or a matrix.")
   }
+  
+  if (is.matrix(data)){
+    data <- as.data.frame(data)
+  }
 
   if (!method %in% c('pearson', 'spearman')) {
     stop("Invalid argument used in function. Argument 'method' must be set to either 'pearson' or 'spearman'.")
@@ -51,8 +55,12 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
 
   # selecting only numeric variables
   if (!all(sapply(data, is.numeric))) {
+    if (all(!sapply(data, is.numeric))) {
+      stop("All variables are non-numeric.")
+    } else{
     data <- data[, sapply(data, is.numeric)]
     warning("Only numeric variables were used to calculate the correlation matrix.")
+    }
   }
 
   # checking method selection
