@@ -4,6 +4,7 @@ test_that('errors',{
   expect_error(cor_matrix(mtcars,variables = 1.34))
   expect_error(cor_matrix(mtcars, variables = c("ht", "hp")))
   expect_error(cor_matrix(mtcars, method = "pers"))
+  expect_error(cor_matrix(matrix(ncol=3,nrow=3)))
 })
 
 
