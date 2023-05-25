@@ -24,14 +24,14 @@
 dataset_info <- function(df,info=TRUE){
 
   if (!is.matrix(df) && !is.data.frame(df)) {
-    stop("\ndf needs to be a matrix or data.frame")
+    stop("\n An argument df needs to be a matrix or data.frame")
   }
   if (info != TRUE && info != FALSE){
-    stop("\n info needs to be TRUE or FALSE")
+    stop("\n An argument info needs to be TRUE or FALSE")
   }
   if (is.matrix(df)){
     df <-as.data.frame(df)
-    warning("\nMatrix converted to data frame")
+    warning("\n Matrix converted to data frame")
   }
 
   rown <- nrow(df)
@@ -40,7 +40,7 @@ dataset_info <- function(df,info=TRUE){
   if (info){
     cat("\n Informations about your dataframe:\n",
         "Number of rows: ",rown,"\n",
-        "number of columns: ",coln,"\n\n",
+        "Number of columns: ",coln,"\n\n",
         "Types of columns:\n ")
     for(i in 1:coln){
       cat("-",names(types[i])," - ",types[i],"\n ")
