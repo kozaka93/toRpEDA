@@ -43,7 +43,8 @@ plot_bar_qual <- function(df, variables = NULL){
       geom_bar(fill = 'royalblue1') +
       labs(x = cols[i],
            y = 'Count',
-           title = paste("Distribution of a column", cols[i]))
+           title = paste("Distribution of a column", cols[i]))+
+           theme_torpeda()
   }
   wrap_plots(p, nrow = k, ncol = dl/k)
 }
