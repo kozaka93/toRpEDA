@@ -68,7 +68,10 @@ plot_bar_plot <- function(df, target, variables = NULL, col_number = 2) {
       ggplot(df, aes(x = .data[[variables[i]]], fill =  .data[[target]])) +
       geom_bar(width = 0.6,
                position = position_dodge2(width = 0.7, preserve = "single")) +
-      scale_x_discrete(drop = FALSE)
+      scale_x_discrete(drop = FALSE)+
+      theme_torpeda()+
+      scale_fill_manual(
+        values = colors_discrete_torpeda(n = length(unique(df[[target]]))))
   }
 
   combined_plots <- wrap_plots(plot_list, ncol = col_number)
