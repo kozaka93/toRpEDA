@@ -1,3 +1,5 @@
+#' Descriptive statistics
+#'
 #' Generates descriptive statistics for a given data frame.
 #' Continuous variables stats are grouped in a single data frame while each
 #' categorical variable has its stats stored in a separate data frame.
@@ -7,10 +9,15 @@
 #' @param include_long_catg Whether or not to include stats for categorical
 #' variables with more than 50 unique values
 #' @returns a list of data frames with descriptive statistics
+#'
+#' @export
+#' @import stats
 #' @examples
 #' get_descriptive_stat(iris)
 #' get_descriptive_stat(iris, vars = c('Petal.Length', 'Species'))
 #' get_descriptive_stat(iris, include_long_catg = TRUE)
+
+
 get_descriptive_stat <- function(df, vars = NULL, include_long_catg = FALSE) {
   if (class(df) != 'data.frame') {
     stop('df parameter should be a data.frame')
