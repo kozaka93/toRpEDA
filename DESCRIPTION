@@ -37,8 +37,8 @@ Imports:
     dplyr,
     stats,
     rpart,
-    rpart.plot
-    patchwork
+    rpart.plot,
+    patchwork,
     rmarkdown
 Suggests:
     testthat (>= 3.0.0)
