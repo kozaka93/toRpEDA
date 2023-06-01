@@ -4,10 +4,12 @@
 \alias{dataset_info}
 \title{Dataset Information}
 \usage{
-dataset_info(df, info = TRUE)
+dataset_info(df, variables = NULL, info = TRUE)
 }
 \arguments{
 \item{df}{A dataframe or matrix to analyze}
+
+\item{variables}{An optional character string giving a variables for computing correlation matrix. This must be colnames from df.}
 
 \item{info}{Logical; if TRUE (default), prints information about the dataframe.
 If FALSE, only returns the information as a list.}
@@ -31,5 +33,5 @@ dataset_info(mtcars)
 #Getting number of rows in a dataframe or matrix
 dataset_info(mtcars,info = FALSE)$nrow
 
-
-}
+#Selecting columns
+dataset_info(mtcars, variables = c("cyl", "vs", "carb"))
