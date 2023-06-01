@@ -37,7 +37,8 @@ Imports:
     dplyr,
     stats,
     rpart,
-    rpart.plot
+    rpart.plot,
+    patchwork
 Suggests:
     testthat (>= 3.0.0)
 URL: https://github.com/kozaka93/toRpEDA
