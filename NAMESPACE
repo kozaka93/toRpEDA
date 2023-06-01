@@ -10,6 +10,7 @@ export(redundant_cols)
 export(cor_matrix)
 export(theme_torpeda)
 export(report_data_info)
+export(qqplot)
 import(ggplot2)
 import(stats)
 
