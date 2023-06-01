@@ -20,7 +20,8 @@ Author: Anna Kozak [aut, cre],
      Szymon Gut [aut],
      Arkadiusz Kniaź [aut],
      Maciej Orsłowski [aut],
-     Malwina Wojewoda [aut]
+     Malwina Wojewoda [aut],
+     Laura Hoang [aut]
 Maintainer: Anna Kozak <anna.kozak@pw.edu.pl>
 Description: toRpEDA is a package designed to automate the data exploration process in R, 
     by providing users with a simple and efficient way to analyze and visualize data. 
@@ -32,8 +33,12 @@ Description: toRpEDA is a package designed to automate the data exploration proc
     their data exploration process.
 License: GPL-3
 Imports:
-  ggplot2,
-  rmarkdown
+    ggplot2, 
+    dplyr,
+    stats,
+    rpart,
+    rpart.plot,
+    rmarkdown
 Suggests:
     testthat (>= 3.0.0)
 URL: https://github.com/kozaka93/toRpEDA
@@ -41,4 +46,3 @@ BugReports: https://github.com/kozaka93/toRpEDA/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-Config/testthat/edition: 3
