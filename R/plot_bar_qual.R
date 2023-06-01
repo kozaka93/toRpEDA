@@ -16,9 +16,15 @@ plot_bar_qual <- function(df, variables = NULL){
     warning("No variables chosen, NULL returned")
     return(NULL)
   }
+  if(!is.data.frame(df)){
+    stop('df is not a data frame.')
+  }
+  if(!any(is.character(variables),is.numeric(variables)){
+    stop("variables is neither numeric nor string type.")
+  }
   for(i in variables){
     if (class(df[,i]) == 'numeric'){
-      stop("One of the variables is not a quality variable.")
+      stop("Some of the variables are not quality variables.")
     }
   }
   k <- 1
