@@ -13,6 +13,7 @@
 #' @export
 plot_bar_qual <- function(df, variables = NULL){
   if(is.null(variables)){
+    warning("No variables chosen, NULL returned")
     return(NULL)
   }
   for(i in variables){
