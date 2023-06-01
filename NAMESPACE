@@ -9,5 +9,9 @@ export(get_descriptive_stat)
 export(redundant_cols)
 export(cor_matrix)
 export(theme_torpeda)
+export(report_data_info)
 import(ggplot2)
 import(stats)
+
+
+

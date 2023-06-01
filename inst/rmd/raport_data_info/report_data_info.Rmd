@@ -1,0 +1,54 @@
+---
+title: '**Raport Data Info**'
+output:
+  html_document:
+    df_print: paged
+date: '`r Sys.time()`'
+params:
+  df: NULL
+  variables: NULL
+---
+
+```{r setup, include = FALSE}
+# library("toRpEDA")
+knitr::opts_chunk$set(echo = FALSE, comment = NA, warning = FALSE, message = FALSE)
+```
+
+This report provides a comprehensive analysis of the dataset, including variable types, data dimensions, missing values, potential ID columns, and outliers. 
+
+# Dim & types 
+
+```{r}
+# dataset_info <- dataset_info(df, variables)
+# knitr::kable(dataset_info)
+```
+
+# Missing values
+
+```{r}
+# outliers_table <- outliers(df, variables)
+# knitr::kable(outliers_table)
+```
+
+# Redundant columns
+
+```{r}
+# redundant_table  <- redundant_cols(df, variables)
+# knitr::kable(redundant_table)
+```
+
+
+# Redundant columns
+
+```{r}
+# redundant_table  <- find_missing_values(df, variables)
+# knitr::kable(redundant_table)
+```
+
+
+# Atypical values
+
+```{r}
+# atypical_values_table  <- atypical_values(df, variables)
+# knitr::kable(atypical_values_table)
+```
