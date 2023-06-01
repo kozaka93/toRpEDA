@@ -40,7 +40,7 @@ plot_bar_qual <- function(df, variables = NULL){
   for(i in 1:dl){
     p[[i]] <- ggplot(data = frame,
                      aes_string(x = names(frame %>% select(get('i'))))) +
-      geom_bar(fill = 'royalblue1') +
+      geom_bar(fill = colors_discrete_torpeda(1)) +
       labs(x = cols[i],
            y = 'Count',
            title = paste("Distribution of a column", cols[i]))+
