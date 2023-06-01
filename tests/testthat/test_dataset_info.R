@@ -1,7 +1,8 @@
 test_that('errors',{
   expect_error(dataset_info(mtcars,info="b"))
   expect_error(dataset_info("izaisgreat"))
-
+  expect_error(dataset_info(mtcars, variables=c("easy","gold")))
+  expect_error(dataset_info(mtcars, variables=3.14))
 })
 test_that('warnings',{
   expect_warning(dataset_info(matrix(ncol=3,nrow=2)))
