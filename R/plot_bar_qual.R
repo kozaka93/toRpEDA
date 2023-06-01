@@ -28,8 +28,6 @@ plot_bar_qual <- function(df, variables = NULL){
   for(i in (dl-1):1){
     if(dl%% i == 0){
       k <- i
-    } else{
-      k <- k
     }
   }
   }
