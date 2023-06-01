@@ -13,7 +13,7 @@
 #'
 #' @export
 #'
-#' @import patchwork
+#' @import patchwork ggplot2
 #'
 #'
 #' @examples
