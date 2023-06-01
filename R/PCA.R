@@ -55,7 +55,7 @@ PCA <- function(df, standardize = TRUE, plot_explained_variance = TRUE){
     ev <- data.frame(explained_variance = answer$Eigenvalues/tr,index = numerki)
     plot <-ggplot(ev, aes(x = numerki,y = explained_variance)) + geom_col() +
       ggtitle("Fraction of total variance explained by following eigenvectors:") +
-      xlab("Eigenvector index")
+      xlab("Eigenvector index") + theme_torpeda()
     print(plot)
   }
   answer
