@@ -20,50 +20,6 @@ Author: Anna Kozak [aut, cre],
      Szymon Gut [aut],
      Arkadiusz Kniaź [aut],
      Maciej Orsłowski [aut],
-     Malwina Wojewoda [aut]
-Maintainer: Anna Kozak <anna.kozak@pw.edu.pl>
-Description: toRpEDA is a package designed to automate the data exploration process in R, 
-    by providing users with a simple and efficient way to analyze and visualize data. 
-    It includes a set of powerful tools and functions that enable users to quickly 
-    and easily explore and understand their data, identify patterns, and generate insights. 
-    The package is designed to work seamlessly with popular data science libraries such as tidyverse,
-    making it easy for users to integrate it into their existing workflows. With its intuitive user interface
-    and powerful features, toRpEDA is an excellent choice for data analysts and scientists looking to streamline 
-    their data exploration process.
-License: GPL-3
-Imports:
-  ggplot2,
-  dplyr
-Suggests:
-    testthat (>= 3.0.0)
-URL: https://github.com/kozaka93/toRpEDA
-BugReports: https://github.com/kozaka93/toRpEDA/issues
-Encoding: UTF-8
-LazyData: true
-Config/testthat/edition: 3
-=======
-Package: toRpEDA
-Type: Package
-Title: toRpEDA is a new automated data exploration package that simplifies the process of data analysis
-Version: 0.1.0
-Author: Anna Kozak [aut, cre],
-    Antoni Chudy [aut],
-     Iza Danielewska [aut],
-     Krzysztof Klopotowski [aut],
-     Grzegorz Pióro [aut],
-     Tymoteusz Kwiecinski [aut],
-     Marta Szuwarska [aut],
-     Paweł Drągowski [aut],
-     Kinga Frańczak [aut],
-     Jakub Piwko [aut],
-     Dominik Kędzierski [aut], 
-     Marcel Witas [aut],
-     Kacper Skonieczka [aut],
-     Mateusz Madej [aut],
-     Weronika Dyszkiewicz [aut],
-     Szymon Gut [aut],
-     Arkadiusz Kniaź [aut],
-     Maciej Orsłowski [aut],
      Malwina Wojewoda [aut],
      Laura Hoang [aut]
 Maintainer: Anna Kozak <anna.kozak@pw.edu.pl>
