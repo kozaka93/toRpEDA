@@ -2,9 +2,7 @@
 % Please edit documentation in R/descriptive_stat.R
 \name{get_descriptive_stat}
 \alias{get_descriptive_stat}
-\title{Generates descriptive statistics for a given data frame.
-Continuous variables stats are grouped in a single data frame while each
-categorical variable has its stats stored in a separate data frame.}
+\title{Descriptive statistics}
 \usage{
 get_descriptive_stat(df, vars = NULL, include_long_catg = FALSE)
 }
