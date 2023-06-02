@@ -49,7 +49,7 @@ plot_scatter <- function(df, vars, target = NULL) {
   else {
     if (!all(vars %in% colnames(df))) {
       stop("There are columns not present in dataframe passed through
-vars parameter.")
+            vars parameter.")
     }
     non_numeric <- c()
     for (name in vars) {
@@ -60,8 +60,8 @@ vars parameter.")
     if (length(non_numeric) > 0) {
       war <- sprintf(
         "There are columns passed through vars parameter that
-are not numeric. Namely: %s. Ignoring them.",
-paste(non_numeric, collapse = " ")
+          are not numeric. Namely: %s. Ignoring them.",
+          paste(non_numeric, collapse = " ")
       )
       warning(war)
       vars = vars[!vars %in% non_numeric]
@@ -76,9 +76,9 @@ paste(non_numeric, collapse = " ")
       war <-
         sprintf(
           "There are columns passed through vares that have very low
-cardinality (below 6 unique values). Namely: %s . It is adviced to choose
-columns with higher cardinality for scatter plots.",
-paste(non_continuous, collapse = " ")
+            cardinality (below 6 unique values). Namely: %s . It is adviced to choose
+            columns with higher cardinality for scatter plots.",
+            paste(non_continuous, collapse = " ")
         )
       warning(war)
     }
@@ -86,20 +86,20 @@ paste(non_continuous, collapse = " ")
   if (length(vars) == 0) {
     stop(
       "There are no continuous variables found in data frame. Consider
-passing names of necassary columns through vars parameter."
+        passing names of necassary columns through vars parameter."
     )
   }
   if (length(vars) == 1) {
     stop(
       "Only one continuous column found in vars parameter. There must be at least 2
-to show scatter plots."
+        to show scatter plots."
     )
   }
   if (length(vars) > 8) {
     warning(
       "There are too many continuous variables to display them on one
-plot. Displaying maximum: 8. Consider changing number of columns in dataset or
-passing names of necassary columns through vars parameter."
+        plot. Displaying maximum: 8. Consider changing number of columns in dataset or
+        passing names of necassary columns through vars parameter."
     )
     vars <- vars[1:8]
   }
