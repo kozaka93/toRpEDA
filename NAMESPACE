@@ -2,7 +2,16 @@
 
 export(colors_discrete_torpeda)
 export(colors_diverging_torpeda)
+export(cor_matrix)
+export(dataset_info)
 export(decision_tree)
+export(get_descriptive_stat)
 export(redundant_cols)
+export(cor_matrix)
 export(theme_torpeda)
+export(report_data_info)
 import(ggplot2)
+import(stats)
+
+
+

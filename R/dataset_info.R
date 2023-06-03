@@ -4,6 +4,7 @@
 #' number of rows and columns, as well as the data types of the columns.
 #'
 #' @param df A dataframe or matrix to analyze
+#' @param variables An optional character string giving a variables for computing correlation matrix. This must be colnames from df.
 #' @param info Logical; if TRUE (default), prints information about the dataframe.
 #' If FALSE, only returns the information as a list.
 #' @return If \code{info} is TRUE, the function prints the information about the
@@ -19,19 +20,34 @@
 #' #Getting number of rows in a dataframe or matrix
 #' dataset_info(mtcars,info = FALSE)$nrow
 #'
+#' #Selecting columns
+#' dataset_info(mtcars, variables = c("cyl", "vs", "carb"))
+#'
 #'
 #' @export
-dataset_info <- function(df,info=TRUE){
+dataset_info <- function(df,variables =NULL,info=TRUE){
 
   if (!is.matrix(df) && !is.data.frame(df)) {
-    stop("\n An argument df needs to be a matrix or data.frame")
+    stop("\ndf needs to be a matrix or data.frame")
   }
+
+  if (!is.null(variables) & is.character(variables)) {
+    if (all(variables %in% colnames(df))) {
+      df <- df[, variables]
+    } else {
+      stop("The dataset does not contain the required columns. Please check that the specified column names are spelled correctly and exist in the dataset.")
+    }
+  }
+  else if (!is.null(variables) & !is.character(variables)) {
+    stop("Invalid variable type used in function. Argument 'variables' must be NULL (deafult) or a character vector.")
+  }
+
   if (info != TRUE && info != FALSE){
-    stop("\n An argument info needs to be TRUE or FALSE")
+    stop("\n info needs to be TRUE or FALSE")
   }
   if (is.matrix(df)){
     df <-as.data.frame(df)
-    warning("\n Matrix converted to data frame")
+    warning("\nMatrix converted to data frame")
   }
 
   rown <- nrow(df)
@@ -40,7 +56,7 @@ dataset_info <- function(df,info=TRUE){
   if (info){
     cat("\n Informations about your dataframe:\n",
         "Number of rows: ",rown,"\n",
-        "Number of columns: ",coln,"\n\n",
+        "number of columns: ",coln,"\n\n",
         "Types of columns:\n ")
     for(i in 1:coln){
       cat("-",names(types[i])," - ",types[i],"\n ")
@@ -49,4 +65,3 @@ dataset_info <- function(df,info=TRUE){
   res<-list(nrow=rown,ncol=coln,types=types)
   return(invisible(res))
 }
-
