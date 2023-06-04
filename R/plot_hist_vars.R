@@ -14,6 +14,10 @@ library(patchwork)
 #'@param plots_per_page an integer indicating the number of plots to display per
 #'page. Default is 6.
 #'@returns series of histogram plots to the R console.
+#'
+#'@import ggplot2 patchwork
+#'@export
+#'
 #'@examples
 #'library(ggplot2)
 #'library(patchwork)
@@ -81,7 +85,7 @@ plot_hist_vars <- function(data, vars, plots_per_page = 6) {
     start_idx <- (i - 1) * plots_per_page + 1
     end_idx <- min(i * plots_per_page, length(plots))
     page_plots <- plots[start_idx:end_idx]
-    page <- wrap_plots(page_plots, nrow = 2, ncol = 3)
+    page <- patchwork::wrap_plots(page_plots, nrow = 2, ncol = 3)
     print(page)
   }
 
