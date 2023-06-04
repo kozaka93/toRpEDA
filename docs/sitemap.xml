@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/404.html</loc>
+  </url>
+  <url>
+    <loc>/authors.html</loc>
+  </url>
+  <url>
+    <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/colors_torpeda.html</loc>
+  </url>
+  <url>
+    <loc>/reference/decision_tree.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/redundant_cols.html</loc>
+  </url>
+  <url>
+    <loc>/reference/theme_torpeda.html</loc>
+  </url>
+</urlset>
