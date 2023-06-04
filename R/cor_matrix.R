@@ -29,8 +29,6 @@
 
 cor_matrix <- function(data, variables = NULL, method = 'pearson') {
 
-  names <- colnames(data)
-
   # checking if all parameters are appropriate
   if (!is.matrix(data) & !is.data.frame(data) & !is.vector(data)) {
     stop("Argument 'data' must be a data frame, a matrix or a vector.")
@@ -42,8 +40,12 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
 
   if (is.vector(data) & is.character(variables) ) {
     stop("Argument 'data' is a vector and contains only one variable.")
-  } else if (is.vector(data) & is.null(variables)) {
-    names <- c('v')
+  }
+
+  if (is.vector(data)) {
+    names <- 'v'
+  } else {
+    names <- colnames(data)
   }
 
   if (!is.vector(data) & !is.null(variables) & is.character(variables)) {
@@ -57,7 +59,7 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
     stop("Invalid variable type used in function. Argument 'variables' must be NULL (deafult) or a character vector.")
   }
 
-  if (is.matrix(data) | is.vector(data)){
+  if (is.matrix(data)){
     data <- as.data.frame(data)
   }
 
@@ -66,10 +68,14 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
     if (all(!sapply(data, is.numeric))) {
       stop("All variables are non-numeric.")
     } else{
-    data <- data[, sapply(data, is.numeric)]
-    names <- colnames(data)
-    warning("Only numeric variables were used to calculate the correlation matrix.")
+      names <- colnames(data)[sapply(data, is.numeric)]
+      data <- data[, sapply(data, is.numeric)]
+      warning("Only numeric variables were used to calculate the correlation matrix.")
     }
+  }
+
+  if (is.vector(data)) {
+    data <- as.data.frame(data)
   }
 
   # checking method selection
