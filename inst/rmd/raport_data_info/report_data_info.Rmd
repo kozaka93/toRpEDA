@@ -19,8 +19,7 @@ This report provides a comprehensive analysis of the dataset, including variable
 # Dim & types 
 
 ```{r}
-# dataset_info <- dataset_info(df, variables)
-# knitr::kable(dataset_info)
+dataset_info <- dataset_info(df)
 ```
 
 # Missing values
@@ -33,12 +32,16 @@ This report provides a comprehensive analysis of the dataset, including variable
 # Redundant columns
 
 ```{r}
-# redundant_table  <- redundant_cols(df, variables)
-# knitr::kable(redundant_table)
+redundant_columns <- redundant_cols(df, variables)
+
+if (identical(redundant_cols(iris), character(0))){
+  cat("No reduncant columns found")
+} else{
+  redundant_columns
+}
 ```
 
-
-# Redundant columns
+# Missing values
 
 ```{r}
 # redundant_table  <- find_missing_values(df, variables)
@@ -47,7 +50,6 @@ This report provides a comprehensive analysis of the dataset, including variable
 
 
 # Atypical values
-
 ```{r}
 # atypical_values_table  <- atypical_values(df, variables)
 # knitr::kable(atypical_values_table)
