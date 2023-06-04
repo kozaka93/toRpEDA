@@ -32,8 +32,10 @@ dataset_info <- function(df,variables =NULL,info=TRUE){
   }
 
   if (!is.null(variables) & is.character(variables)) {
+
     if (all(variables %in% colnames(df))) {
-      df <- df[, variables]
+      df <- as.data.frame(df[, variables])
+      colnames(df) <- variables
     } else {
       stop("The dataset does not contain the required columns. Please check that the specified column names are spelled correctly and exist in the dataset.")
     }
@@ -65,3 +67,4 @@ dataset_info <- function(df,variables =NULL,info=TRUE){
   res<-list(nrow=rown,ncol=coln,types=types)
   return(invisible(res))
 }
+
