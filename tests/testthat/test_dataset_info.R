@@ -11,6 +11,7 @@ test_that('warnings',{
 test_that('value',{
   expect_equal(dataset_info(mtcars)$nrow, nrow(mtcars))
   expect_equal(dataset_info(mtcars)$ncol, ncol(mtcars))
+  expect_equal(dataset_info(mtcars,"mpg")$ncol, 1)
   })
 
 test_that('result type', {
