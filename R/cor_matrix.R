@@ -3,7 +3,7 @@
 #'
 #' 'cor_matrix' computing correlation matrix for numeric variables from data.
 #'
-#' @param data A numeric matrix, data frame, or vector.
+#' @param data A numeric matrix, a data frame or a vector.
 #' @param variables An optional character string giving a variables for computing correlation matrix. This must be colnames from data.
 #' @param method A character string specifying the correlation coefficient to be calculated. Possible values are: 'pearson' - computes the Pearson correlation coefficient (default), 'spearman' - computes the Spearman rank correlation coefficient.
 #'
@@ -29,28 +29,36 @@
 
 cor_matrix <- function(data, variables = NULL, method = 'pearson') {
 
+  names <- colnames(data)
+
   # checking if all parameters are appropriate
-  if (!is.matrix(data) & !is.data.frame(data)) {
-    stop("Argument 'data' must be a data frame or a matrix.")
-  }
-  
-  if (is.matrix(data)){
-    data <- as.data.frame(data)
+  if (!is.matrix(data) & !is.data.frame(data) & !is.vector(data)) {
+    stop("Argument 'data' must be a data frame, a matrix or a vector.")
   }
 
   if (!method %in% c('pearson', 'spearman')) {
     stop("Invalid argument used in function. Argument 'method' must be set to either 'pearson' or 'spearman'.")
   }
 
-  if (!is.null(variables) & is.character(variables)) {
+  if (is.vector(data) & is.character(variables) ) {
+    stop("Argument 'data' is a vector and contains only one variable.")
+  } else if (is.vector(data) & is.null(variables)) {
+    names <- c('v')
+  }
+
+  if (!is.vector(data) & !is.null(variables) & is.character(variables)) {
     if (all(variables %in% colnames(data))) {
       data <- data[, variables]
+      names <- variables
     } else {
       stop("The dataset does not contain the required columns. Please check that the specified column names are spelled correctly and exist in the dataset.")
     }
-  }
-  else if (!is.null(variables) & !is.character(variables)) {
+  } else if (!is.null(variables) & !is.character(variables)) {
     stop("Invalid variable type used in function. Argument 'variables' must be NULL (deafult) or a character vector.")
+  }
+
+  if (is.matrix(data) | is.vector(data)){
+    data <- as.data.frame(data)
   }
 
   # selecting only numeric variables
@@ -59,6 +67,7 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
       stop("All variables are non-numeric.")
     } else{
     data <- data[, sapply(data, is.numeric)]
+    names <- colnames(data)
     warning("Only numeric variables were used to calculate the correlation matrix.")
     }
   }
@@ -70,8 +79,8 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
 
   # computing correlation matrix
   p <- ncol(data)
-  names <- list(colnames(data), colnames(data))
-  cros <- expand.grid(first = colnames(data), second = colnames(data))
+  lnames <- list(names, names)
+  cros <- expand.grid(first = names, second = names)
   for (i in 1:nrow(cros)) {
     x <- data[, cros[i, 1]]
     y <- data[, cros[i, 2]]
@@ -79,8 +88,7 @@ cor_matrix <- function(data, variables = NULL, method = 'pearson') {
       sum((x - mean(x)) * (y - mean(y))) / sqrt(sum((x - mean(x)) ^ 2) * sum((y - mean(y)) ^ 2))
   }
 
-  cormatrix <- matrix(cros$third, nrow = p, ncol = p, dimnames = names)
+  cormatrix <- matrix(cros$third, nrow = p, ncol = p, dimnames = lnames)
   return(cormatrix)
 
 }
-
