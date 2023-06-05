@@ -34,6 +34,7 @@ Description: toRpEDA is a package designed to automate the data exploration proc
 License: GPL-3
 Imports:
     ggplot2, 
+    patchwork,
     dplyr,
     stats,
     rpart,
@@ -48,3 +49,4 @@ Encoding: UTF-8
 LazyData: true
 Config/testthat/edition: 3
 RoxygenNote: 7.2.3
+
