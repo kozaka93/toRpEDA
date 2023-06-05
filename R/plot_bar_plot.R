@@ -39,12 +39,16 @@ plot_bar_plot <- function(df, target, variables = NULL, col_number = 2) {
   if (!all(variables %in% colnames(df)) & !is.null(variables)){
     stop("Incorrect column in variables arguement")
   }
-  if (!is.character(df[[target]])){
+  if (!is.character(df[[target]]) &
+      !is.logical(df[[target]]) &
+      !is.factor(df[[target]])){
     stop("Target column is not categorical")
   }
   if(!is.null(variables)){
     for (col_name in variables) {
-      if (!is.character(df[[col_name]])) {
+      if (!is.character(df[[col_name]]) &
+      !is.logical(df[[col_name]]) &
+      !is.factor(df[[col_name]])) {
         stop("One of variable column is not categorical")
       }
     }
@@ -52,7 +56,10 @@ plot_bar_plot <- function(df, target, variables = NULL, col_number = 2) {
 
   if (is.null(variables)) {
     for (col_name in colnames(df)) {
-      if (is.character(df[[col_name]]) & col_name != target) {
+      if ((is.character(df[[col_name]]) |
+           is.logical(df[[col_name]]) |
+           is.factor(df[[col_name]]))
+           & col_name != target) {
         variables <- c(variables, col_name)
       }
     }
