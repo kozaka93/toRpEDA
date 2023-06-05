@@ -19,7 +19,7 @@ plot_bar_qual <- function(df, variables = NULL){
   if(!is.data.frame(df)){
     stop('df is not a data frame.')
   }
-  if(!any(is.character(variables),is.numeric(variables)){
+  if(!any(is.character(variables),is.numeric(variables))){
     stop("variables is neither numeric nor string type.")
   }
   for(i in variables){
