@@ -35,3 +35,6 @@ dataset_info(mtcars,info = FALSE)$nrow
 
 #Selecting columns
 dataset_info(mtcars, variables = c("cyl", "vs", "carb"))
+
+
+}

@@ -7,7 +7,7 @@
 cor_matrix(data, variables = NULL, method = "pearson")
 }
 \arguments{
-\item{data}{A numeric matrix, data frame, or vector.}
+\item{data}{A numeric matrix, a data frame or a vector.}
 
 \item{variables}{An optional character string giving a variables for computing correlation matrix. This must be colnames from data.}
 
