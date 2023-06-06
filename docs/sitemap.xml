@@ -31,7 +31,16 @@
     <loc>/reference/PCA.html</loc>
   </url>
   <url>
+    <loc>/reference/plot_bar_plot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_bar_qual.html</loc>
+  </url>
+  <url>
     <loc>/reference/plot_hist_vars.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_scatter.html</loc>
   </url>
   <url>
     <loc>/reference/redundant_cols.html</loc>
