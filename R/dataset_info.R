@@ -54,7 +54,7 @@ dataset_info <- function(df,variables =NULL,info=TRUE){
 
   rown <- nrow(df)
   coln <- ncol(df)
-  types <- sapply(df,typeof)
+  types <- sapply(df,class)
   if (info){
     cat("\n Informations about your dataframe:\n",
         "Number of rows: ",rown,"\n",
