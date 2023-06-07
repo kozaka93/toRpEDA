@@ -5,31 +5,31 @@ df <- data.frame(data.frame(a = c(2,5,4,NA, 5,7,NA), b =  c(NA,NA,2,NA, 5,7,3),
                              g = c(253,NA,NA,NA, NA,NA,NA), h =  c(3,34,2,5, 5,7,56)))
 library(ggplot2)
 library(testthat)
-test_that("Nie podano ramki danych",
+test_that("Missing dataframe",
           {expect_error(find_missing_values(c(1,2,3)))})
 
-test_that("Bledna nazwa kolumny",
+test_that("Wrong column name",
           {expect_error(find_missing_values(df,variable = c("a", "e", "r") ))})
 
-test_that("Wybrano zbyt duza liczba kolumn",
+test_that("Selected too many columns",
           {expect_error(find_missing_values(df,variable = c("a", "e", "b", "c", "d", "f", "g", "h", "i" ,"l")))})
 
 
-test_that("Podano poprawne dane",
+test_that("Correct data",
          {df_true <- data.frame("Column_name" = c("a", "b", "c", "d", "e", "f", "g", "h"),
                                 "Number_of_missing_values" = c(2,3,1,3,2,0,6,0))
          expect_equal(find_missing_values(df)$Table$`Column name`, df_true$Column_name)
          expect_equal(find_missing_values(df)$Table$`Number of missing values`, df_true$Number_of_missing_values)
          })
 
-test_that("Podano poprawne dane",
+test_that("Correct data",
           {df_true2 <- data.frame("Column_name" = c("a"),
                                   "Number_of_missing_values" = c(2))
           expect_equal(find_missing_values(df, variable = "a")$Table$`Column name`, df_true2$Column_name)
           expect_equal(find_missing_values(df, variable = "a")$Table$`Number of missing values`, df_true2$Number_of_missing_values)
           })
 
-test_that("Podano poprawne dane",
+test_that("Correct data",
           {df_true3 <- data.frame("Column_name" = c("a", "c"),
                                   "Number_of_missing_values" = c(2,1))
           expect_equal(find_missing_values(df, variable = c("a", "c"))$Table$`Column name`, df_true3$Column_name)
