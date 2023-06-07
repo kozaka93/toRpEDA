@@ -1,7 +1,7 @@
 #' The aim of this function is to check how many missing values has our data.
 #'
 #'@param df dataframe
-#'@param variable selected column (default value = all columns)
+#'@param variable selected column name/names (default value = all columns)
 #'
 #'
 #'@return A table and a diagram representing the number of missing values in each/selected colums.
@@ -29,7 +29,7 @@ find_missing_values <- function(df, variable = NULL) {
     p <- ncol(df)
     tmp <- rep(0, p)
     for (i in 1:p) {
-      if(is.na(as.integer(table(is.na(df[, i]))[2])))
+      if(all(is.na(df[, i])))
       {
         tmp[i] <- as.integer(table(is.na(df[, i]))[1])
       }
@@ -52,7 +52,7 @@ find_missing_values <- function(df, variable = NULL) {
     {
       stop("You have to write correct column name!")
     }
-    if(is.na(as.integer(table(is.na(df[, variable]))[2])))
+    if(all(is.na(df[, variable])))
     {
       tmp <- as.integer(table(is.na(df[, variable]))[1])
     }
@@ -81,7 +81,7 @@ find_missing_values <- function(df, variable = NULL) {
     p <- ncol(new_df)
     tmp <- rep(0, p)
     for (i in 1:p) {
-      if(is.na(as.integer(table(is.na(df[, variable[i]]))[2])))
+      if(all(is.na(df[variable[i]])))
       {
         tmp[i] <- as.integer(table(is.na(df[, variable[i]]))[1])
       }
