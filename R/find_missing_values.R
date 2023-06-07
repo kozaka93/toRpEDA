@@ -29,8 +29,14 @@ find_missing_values <- function(df, variable = NULL) {
     p <- ncol(df)
     tmp <- rep(0, p)
     for (i in 1:p) {
+      if(is.na(as.integer(table(is.na(df[, i]))[2])))
+      {
+        tmp[i] <- as.integer(table(is.na(df[, i]))[1])
+      }
+      else{
       tmp[i] <- as.integer(table(is.na(df[, i]))[2])
-    }
+      }
+      }
     data <-
       as.data.frame(data.frame(Column = colnames(df), Number = tmp))
     diagram <- ggplot(data, aes(x = colnames(df), y = tmp)) +
@@ -46,7 +52,13 @@ find_missing_values <- function(df, variable = NULL) {
     {
       stop("You have to write correct column name!")
     }
-    tmp <- as.integer(table(is.na(df[, variable]))[2])
+    if(is.na(as.integer(table(is.na(df[, variable]))[2])))
+    {
+      tmp <- as.integer(table(is.na(df[, variable]))[1])
+    }
+    else{
+      tmp <- as.integer(table(is.na(df[, variable]))[2])
+    }
     data <-
       as.data.frame(data.frame(Column = variable, Number = tmp))
     diagram <- ggplot(data, aes(x = variable, y = tmp)) +
@@ -69,7 +81,13 @@ find_missing_values <- function(df, variable = NULL) {
     p <- ncol(new_df)
     tmp <- rep(0, p)
     for (i in 1:p) {
-      tmp[i] <- as.integer(table(is.na(df[, variable[i]]))[2])
+      if(is.na(as.integer(table(is.na(df[, variable[i]]))[2])))
+      {
+        tmp[i] <- as.integer(table(is.na(df[, variable[i]]))[1])
+      }
+      else{
+        tmp[i] <- as.integer(table(is.na(df[, variable[i]]))[2])
+      }
     }
     data <-
       as.data.frame(data.frame(Column = variable, Number = tmp))
