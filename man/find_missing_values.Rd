@@ -9,7 +9,7 @@ find_missing_values(df, variable = NULL)
 \arguments{
 \item{df}{dataframe}
 
-\item{variable}{selected column (default value = all columns)}
+\item{variable}{selected column name/names (default value = all columns)}
 }
 \value{
 A table and a diagram representing the number of missing values in each/selected colums.
