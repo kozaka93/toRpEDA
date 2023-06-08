@@ -11,6 +11,23 @@ df <- data.frame(
 )
 df[sample(nrow(df), 2), ] <- NA
 
+test_that("impute_missing_data returns error when passed not a data frame", {
+  expect_error(impute_missing_data("df"))
+})
+
+test_that("impute_missing_data returns error when variables is not a list of character vectors", {
+  expect_error(impute_missing_data(df, variables = "not a list"))
+})
+
+test_that("impute_missing_data displays message when some chosen variables do not exist in dataframe", {
+  expect_message(impute_missing_data(df, variables = list(c("logical_col", "non_existent_col"))))
+})
+
+test_that("impute_missing_data validates methods parameter", {
+  expect_error(impute_missing_data(df, methods = "invalid"))
+  expect_error(impute_missing_data(df, methods = c("mean", "invalid")))
+})
+
 test_that("impute_missing_data returns an empty data frame when passed an empty data frame", {
   df_empty <- data.frame()
   df_imputed <- impute_missing_data(df_empty)
