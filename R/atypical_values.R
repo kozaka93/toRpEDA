@@ -17,6 +17,21 @@
 #' with 1 indicating 'true' and 'false', 2 for 'yes' and 'no'.
 #'
 #' @examples
+#'yes_no <- c("yES", "n",'y',"No",'yes',"nO")
+#'true_false <- c('f','t','TrUe','FaLsE')
+#'
+#'df <- data.frame(
+#'  'a' = gsub('\\.',',',as.character(rnorm(10))),
+#'  'b' = c(gsub('\\.',',',as.character(rnorm(5))),rnorm(5)),
+#'  'c' = as.character(c(TRUE,FALSE), replace=TRUE, size=10),
+#'  'd' = sample(yes_no, 10, replace=TRUE),
+#'  'e' = sample(true_false,10, replace=TRUE),
+#'  'f' = c(sample(yes_no,5, replace=TRUE),sample(true_false,5, replace=TRUE)),
+#'  'g' = as.character(sample(1:100,10))
+#')
+#'atypical_values(df,analyses = c("integer","boolean"))
+#'atypical_values(df,analyses = c("character"))
+#'atypical_values(df, variables = c('a','d','e'))
 #'
 #' @export
 
