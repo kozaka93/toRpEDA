@@ -30,7 +30,6 @@
 #'  'g' = as.character(sample(1:100,10))
 #')
 #'atypical_values(df,analyses = c("integer","boolean"))
-#'atypical_values(df,analyses = c("character"))
 #'atypical_values(df, variables = c('a','d','e'))
 #'
 #' @export
