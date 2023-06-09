@@ -80,8 +80,13 @@ redundant_cols <-
       message("corr_treshold is not a proper number between 0 and 1; changing it to 0.9")
       corr_treshold <- 0.9
     }
-    if (correlated)
+    if (all(correlated, is.null(corr_treshold)))
       corr_treshold <- 0.9
+    if(length(unique(names(df))) != ncol(df)) {
+      message("column names are not unique; duplicated column names will be renamed")
+      names(df) <- make.unique(names(df), sep = ".")
+      variables <- colnames(df)
+    }
 
     # skipping columns not provided in variables parameter
     original_df <- df
