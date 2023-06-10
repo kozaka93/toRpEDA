@@ -3,7 +3,7 @@ Type: Package
 Title: toRpEDA is a new automated data exploration package that simplifies the process of data analysis
 Version: 0.1.0
 Author: Anna Kozak [aut, cre],
-    Antoni Chudy [aut],
+     Antoni Chudy [aut],
      Iza Danielewska [aut],
      Krzysztof Klopotowski [aut],
      Grzegorz Pióro [aut],
@@ -21,7 +21,8 @@ Author: Anna Kozak [aut, cre],
      Arkadiusz Kniaź [aut],
      Maciej Orsłowski [aut],
      Malwina Wojewoda [aut],
-     Laura Hoang [aut]
+     Laura Hoang [aut],
+     Zuzanna Glinka [aut]
 Maintainer: Anna Kozak <anna.kozak@pw.edu.pl>
 Description: toRpEDA is a package designed to automate the data exploration process in R, 
     by providing users with a simple and efficient way to analyze and visualize data. 
@@ -38,6 +39,8 @@ Imports:
     dplyr,
     stats,
     rpart,
+    glue,
+    isotree,
     rpart.plot,
     rmarkdown
 Suggests:
@@ -48,4 +51,3 @@ Encoding: UTF-8
 LazyData: true
 Config/testthat/edition: 3
 RoxygenNote: 7.2.3
-

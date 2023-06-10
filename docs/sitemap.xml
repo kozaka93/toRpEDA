@@ -22,6 +22,9 @@
     <loc>/reference/decision_tree.html</loc>
   </url>
   <url>
+    <loc>/reference/find_missing_values.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_descriptive_stat.html</loc>
   </url>
   <url>
@@ -47,6 +50,9 @@
   </url>
   <url>
     <loc>/reference/report_data_info.html</loc>
+  </url>
+  <url>
+    <loc>/reference/table_one.html</loc>
   </url>
   <url>
     <loc>/reference/theme_torpeda.html</loc>
