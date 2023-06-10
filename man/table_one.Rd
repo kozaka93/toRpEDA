@@ -2,10 +2,7 @@
 % Please edit documentation in R/table_one.R
 \name{table_one}
 \alias{table_one}
-\title{Dataset Information
-Function generates a data frame of the most common statistics
-such as mean, standard deviation, minimum and maximum
-grouped by selected argument for numerical variables}
+\title{table_one}
 \usage{
 table_one(numeric_vars = NULL, groupby, data)
 }
@@ -23,7 +20,6 @@ such as mean, standard deviation, minimum and maximum
 of desired numerical variables
 }
 \description{
-Dataset Information
 Function generates a data frame of the most common statistics
 such as mean, standard deviation, minimum and maximum
 grouped by selected argument for numerical variables
