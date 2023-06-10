@@ -10,6 +10,9 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/atypical_values.html</loc>
+  </url>
+  <url>
     <loc>/reference/colors_torpeda.html</loc>
   </url>
   <url>
@@ -28,7 +31,22 @@
     <loc>/reference/get_descriptive_stat.html</loc>
   </url>
   <url>
+    <loc>/reference/impute_mean.html</loc>
+  </url>
+  <url>
+    <loc>/reference/impute_median.html</loc>
+  </url>
+  <url>
+    <loc>/reference/impute_missing_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/impute_mode.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/outliers.html</loc>
   </url>
   <url>
     <loc>/reference/PCA.html</loc>
@@ -41,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/plot_hist_vars.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_num_plots.html</loc>
   </url>
   <url>
     <loc>/reference/plot_scatter.html</loc>

@@ -1,12 +1,12 @@
-library(isotree)
-library(glue)
-
 #' Function that finds potential outlier observations
 #' @param df A dataframe
 #'
 #' @return An information about outliers
 #' You can learn more about package authoring with RStudio at:
 #'
+#' @import glue isotree
+#'
+#' @export
 #' @examples
 #' library(isotree)
 #' library(toRpEDA)
@@ -44,7 +44,7 @@ outliers <- function(df) {
       }
     }
     if(length(df)>1){
-      model <- isolation.forest(df, nthreads=1)
+      model <- isotree::isolation.forest(df, nthreads=1)
       pred <- predict(model, df)
       out <- seq(1, nrow(df))[pred > 0.75]
       mess <- glue(mess, 'Based on all columns: ')
