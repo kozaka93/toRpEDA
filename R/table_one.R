@@ -1,4 +1,6 @@
-#' Dataset Information
+#' table_one
+#'
+#'
 #' Function generates a data frame of the most common statistics
 #' such as mean, standard deviation, minimum and maximum
 #' grouped by selected argument for numerical variables
