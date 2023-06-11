@@ -3,30 +3,50 @@ title: '**Raport Data Info**'
 output:
   html_document:
     df_print: paged
+    theme: cosmo
+    toc: true
+    toc_float: true
 date: '`r Sys.time()`'
 params:
   df: NULL
   variables: NULL
 ---
 
-```{r setup, include = FALSE}
-# library("toRpEDA")
-knitr::opts_chunk$set(echo = FALSE, comment = NA, warning = FALSE, message = FALSE)
-```
-
 This report provides a comprehensive analysis of the dataset, including variable types, data dimensions, missing values, potential ID columns, and outliers. 
 
 # Dim & types 
 
 ```{r}
-dataset_info <- dataset_info(df)
+dataset_info <- dataset_info(df, info = FALSE)
+```
+The dataset contains **`r info$nrow`** rows and **`r info$ncol`** columns.
+
+
+```{r}
+dataset_info <- data.frame(
+  Feature = names(dataset_info$types),
+  Type = dataset_info$types
+)
+row.names(dataset_info) <- NULL
+dataset_info
 ```
 
 # Missing values
 
+### Table
 ```{r}
-# outliers_table <- outliers(df, variables)
-# knitr::kable(outliers_table)
+missing_values  <- find_missing_values(df, variables)
+missing_values$Table
+```
+
+### Barplot of missing values
+
+```{r}
+if(any(missing_values$Table[2] != 0)){
+  missing_values$Diagram
+} else{
+  cat("There are no missing values, so a barplot is not needed.")
+}
 ```
 
 # Redundant columns
@@ -34,23 +54,48 @@ dataset_info <- dataset_info(df)
 ```{r}
 redundant_columns <- redundant_cols(df, variables)
 
-if (identical(redundant_cols(iris), character(0))){
+if (identical(redundant_cols(df), character(0))){
   cat("No reduncant columns found")
 } else{
-  redundant_columns
+  redundant_df <- data.frame(Redundant_Columns = redundant_columns)
+  redundant_df
 }
 ```
 
-# Missing values
-
+# Outliers
 ```{r}
-# redundant_table  <- find_missing_values(df, variables)
-# knitr::kable(redundant_table)
+df_na_ommited <- na.omit(df)
+outliers_message <- capture.output({
+  outliers(df_na_ommited)}, type = "message"
+)
+
+sentences <- strsplit(outliers_message, "\\. ")[[1]]
+
+# Extracting the column names and outlier indices from each sentence
+columns <- sub("For column (.*?) potential outliers indexes:.*", "\\1", sentences)
+indices <- strsplit(sub(".*indexes: (.*)", "\\1", sentences), ", ")
+columns[length(columns)] <- "Based on all columns"
+
+# Check if the last sentence is the "no outliers found" message
+if(grepl("Based on all columns: no outliers were found", sentences[length(sentences)])){
+  # Handle the last sentence separately
+  indices[[length(indices)]] <- "No outliers found"
+}
+
+
+outliers_df <- data.frame(
+  Column = columns,
+  Indices = sapply(indices, paste, collapse = ", ")
+)
+
+outliers_df
 ```
-
-
 # Atypical values
+
 ```{r}
-# atypical_values_table  <- atypical_values(df, variables)
-# knitr::kable(atypical_values_table)
+atypical_values_results <- atypical_values(df, variables)
+atypical_values_df <- data.frame(atypical_values_results)
+atypical_values_df <- data.frame(Variable = rownames(atypical_values_df), atypical_values_df, row.names = NULL)
+
+atypical_values_df
 ```
