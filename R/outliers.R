@@ -3,9 +3,9 @@ library(glue)
 
 #' Function that finds potential outlier observations
 #' @param df A dataframe
-#'
-#' @return An information about outliers
-#' You can learn more about package authoring with RStudio at:
+#' @param variables column names of given dataframe to process. By default all colnames of dataframe.
+#' @return An information about outliers as a message
+#' It informed about outliers in individual columns and in all dataset.
 #'
 #' @examples
 #' library(isotree)
@@ -17,12 +17,16 @@ library(glue)
 #' a <- c(1,2,3,42,1,1,0)
 #' outliers(a)
 
-outliers <- function(df) {
+outliers <- function(df, variables = NULL) {
+  if(!is.null(variables)){
+    df <- df[, variables]
+  }
+  df <- na.omit(df)
   mess <- ""
   if(is.vector(df)){
     if(is.numeric(df)){
-      out <- sort(c(seq(1, length(df))[df > quantile(df, 0.95)],
-                         seq(1, length(df))[df < quantile(df, 0.05)]))
+      out <- sort(c(seq(1, length(df))[df.notna() > quantile(col, 0.95)],
+                         seq(1, length(df))[df < quantile(col, 0.05)]))
       if(!length(out) > 0){
         mess <- glue(mess, 'Vector has no outliers. ')
       }else{
