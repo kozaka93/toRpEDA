@@ -25,7 +25,7 @@ outliers <- function(df, variables = NULL) {
   mess <- ""
   if(is.vector(df)){
     if(is.numeric(df)){
-      out <- sort(c(seq(1, length(df))[df.notna() > quantile(col, 0.95)],
+      out <- sort(c(seq(1, length(df))[df > quantile(col, 0.95)],
                          seq(1, length(df))[df < quantile(col, 0.05)]))
       if(!length(out) > 0){
         mess <- glue(mess, 'Vector has no outliers. ')
