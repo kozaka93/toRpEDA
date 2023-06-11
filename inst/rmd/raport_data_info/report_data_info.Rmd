@@ -12,7 +12,13 @@ params:
   variables: NULL
 ---
 
-This report provides a comprehensive analysis of the dataset, including variable types, data dimensions, missing values, potential ID columns, and outliers. 
+This report provides a comprehensive analysis of the dataset, presented in the following sections:
+
+- **Dimensions and Types:** Displays the size of the dataset (number of rows and columns) and the types of data it contains.
+- **Missing Values:** Identifies any missing values within the dataset, summarized in a table and graph.
+- **Redundant Columns:** Searches for any columns that may be redundant due to duplicate or highly similar information.
+- **Outliers:** Locates values that are significantly different from the majority of values in the dataset, potentially indicating data variability or measurement errors.
+- **Atypical Values:** Highlights values that don't align with the expected data patterns, suggesting possible data entry errors or other inconsistencies.
 
 # Dim & types 
 
@@ -63,6 +69,7 @@ if (identical(redundant_cols(df), character(0))){
 ```
 
 # Outliers
+
 ```{r}
 df_na_ommited <- na.omit(df)
 outliers_message <- capture.output({
@@ -76,9 +83,9 @@ columns <- sub("For column (.*?) potential outliers indexes:.*", "\\1", sentence
 indices <- strsplit(sub(".*indexes: (.*)", "\\1", sentences), ", ")
 columns[length(columns)] <- "Based on all columns"
 
-# Check if the last sentence is the "no outliers found" message
+# Checking if the last sentence is the "no outliers found" message
 if(grepl("Based on all columns: no outliers were found", sentences[length(sentences)])){
-  # Handle the last sentence separately
+  # Handling the last sentence separately
   indices[[length(indices)]] <- "No outliers found"
 }
 
@@ -91,6 +98,13 @@ outliers_df <- data.frame(
 outliers_df
 ```
 # Atypical values
+
+Here we look at three types of analyses: integer, boolean, and numeric.
+
+- **Integer**: This suggests that the data in the column could potentially be transformed into an integer type.
+- **Boolean**: The column contains 'true'/'false' or 'yes'/'no' variations that could be converted into boolean type. '1' signifies 'true'/'false' variations, while '2' represents 'yes'/'no' variations.
+- **Numeric**: The column could potentially be converted into a numeric type, often when numeric values are stored as text with a comma as the decimal separator.
+
 
 ```{r}
 atypical_values_results <- atypical_values(df, variables)
