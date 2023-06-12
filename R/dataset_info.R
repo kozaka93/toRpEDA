@@ -25,7 +25,7 @@
 #'
 #'
 #' @export
-dataset_info <- function(df,variables =NULL,info=TRUE){
+dataset_info <- function(df, variables =NULL,info=TRUE){
 
   if (!is.matrix(df) && !is.data.frame(df)) {
     stop("\ndf needs to be a matrix or data.frame")

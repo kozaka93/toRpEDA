@@ -4,14 +4,16 @@
 \alias{outliers}
 \title{Function that finds potential outlier observations}
 \usage{
-outliers(df)
+outliers(df, variables = NULL)
 }
 \arguments{
 \item{df}{A dataframe}
+
+\item{variables}{column names of given dataframe to process. By default all colnames of dataframe.}
 }
 \value{
-An information about outliers
-You can learn more about package authoring with RStudio at:
+An information about outliers as a message
+It informed about outliers in individual columns and in all dataset.
 }
 \description{
 Function that finds potential outlier observations

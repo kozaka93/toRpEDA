@@ -62,4 +62,5 @@ outliers <- function(df, variables = NULL) {
     mess <- glue(mess, 'Input data is not a vector or a data frame. ')
   }
   message(mess)
+  mess
 }

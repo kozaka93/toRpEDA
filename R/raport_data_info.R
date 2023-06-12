@@ -18,7 +18,7 @@
 #'
 #'
 
-report_data_info <-
+raport_data_info <-
   function(df,
            variables = NULL,
            output_file = NULL,

@@ -25,7 +25,7 @@ This report provides a comprehensive analysis of the dataset, presented in the f
 ```{r}
 dataset_info <- dataset_info(df, info = FALSE)
 ```
-The dataset contains **`r info$nrow`** rows and **`r info$ncol`** columns.
+The dataset contains **`r dataset_info$nrow`** rows and **`r dataset_info$ncol`** columns.
 
 
 ```{r}
@@ -71,10 +71,7 @@ if (identical(redundant_cols(df), character(0))){
 # Outliers
 
 ```{r}
-df_na_ommited <- na.omit(df)
-outliers_message <- capture.output({
-  outliers(df_na_ommited)}, type = "message"
-)
+outliers_message <- outliers(df, variables)
 
 sentences <- strsplit(outliers_message, "\\. ")[[1]]
 
