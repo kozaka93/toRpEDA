@@ -15,5 +15,6 @@ test_that('value',{
   })
 
 test_that('result type', {
-  expect_type(dataset_info(mtcars)$types, "character")
+  expect_type(dataset_info(mtcars)$classes, "character")
   })
+
