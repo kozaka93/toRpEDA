@@ -50,7 +50,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">outliers</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">outliers</span><span class="op">(</span><span class="va">df</span>, variables <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -58,13 +58,17 @@
     <dl><dt>df</dt>
 <dd><p>A dataframe</p></dd>
 
+
+<dt>variables</dt>
+<dd><p>column names of given dataframe to process. By default all colnames of dataframe.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>An information about outliers
-You can learn more about package authoring with RStudio at:</p>
+<p>An information about outliers as a message
+It informed about outliers in individual columns and in all dataset.</p>
     </div>
 
     <div id="ref-examples">
