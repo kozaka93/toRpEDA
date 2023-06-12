@@ -1,6 +1,6 @@
 library(isotree)
 library(glue)
-
+library(dplyr)
 #' Function that finds potential outlier observations
 #' @param df A dataframe
 #' @param variables column names of given dataframe to process. By default all colnames of dataframe.
@@ -34,6 +34,8 @@ outliers <- function(df, variables = NULL) {
       }
     }
   } else if (is.data.frame(df)) {
+    if(nrow(df) != 0 ){
+
     for(i in 1:ncol(df)){
       col <- df[[i]]
       if(is.numeric(col)){
@@ -48,18 +50,21 @@ outliers <- function(df, variables = NULL) {
       }
     }
     if(length(df)>1){
+      df <- select_if(df, is.numeric)
       model <- isolation.forest(df, nthreads=1)
       pred <- predict(model, df)
       out <- seq(1, nrow(df))[pred > 0.75]
       mess <- glue(mess, 'Based on all columns: ')
-      if(is.na(out) || length(out) == 0){
+      if(any(is.na(out)) || length(out) == 0){
         mess <- glue(mess, 'no outliers were found. ')
       }else{
-        mess <- glue(mess, 'potential outliers indexes: {glue_collapse(out,  sep = ', ')}. ')
+        mess <- glue(mess, "potential outliers indexes: {glue_collapse(out,  sep = ', ')}. ")
       }
+    }
     }
   } else {
     mess <- glue(mess, 'Input data is not a vector or a data frame. ')
   }
   message(mess)
+  mess
 }
