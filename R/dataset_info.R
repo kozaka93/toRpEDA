@@ -1,7 +1,7 @@
 #' Dataset Information
 #'
 #' This function provides information about a given dataframe, including the
-#' number of rows and columns, as well as the data types of the columns.
+#' number of rows and columns, as well as the classes of the columns.
 #'
 #' @param df A dataframe or matrix to analyze
 #' @param variables An optional character string giving a variables for computing correlation matrix. This must be colnames from df.
