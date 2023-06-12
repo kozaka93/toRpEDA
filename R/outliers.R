@@ -16,15 +16,15 @@ library(glue)
 #'
 #' a <- c(1,2,3,42,1,1,0)
 #' outliers(a)
-
 outliers <- function(df, variables = NULL) {
-  if(!is.null(variables)){
+  if(!is.null(variables) && is.data.frame(df)){
     df <- df[, variables]
   }
   df <- na.omit(df)
   mess <- ""
   if(is.vector(df)){
     if(is.numeric(df)){
+      col <- df
       out <- sort(c(seq(1, length(df))[df > quantile(col, 0.95)],
                          seq(1, length(df))[df < quantile(col, 0.05)]))
       if(!length(out) > 0){
