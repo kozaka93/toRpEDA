@@ -9,7 +9,7 @@
 #' If FALSE, only returns the information as a list.
 #' @return If \code{info} is TRUE, the function prints the information about the
 #' dataframe and returns an invisible list containing the number of rows and
-#' columns, and the data types of the columns. If \code{info} is FALSE, the
+#' columns, and classes of the columns. If \code{info} is FALSE, the
 #' function only returns the list.
 #' @examples
 #' library(toRpEDA)
@@ -54,17 +54,17 @@ dataset_info <- function(df,variables =NULL,info=TRUE){
 
   rown <- nrow(df)
   coln <- ncol(df)
-  types <- sapply(df,class)
+  classes <- sapply(df,class)
   if (info){
     cat("\n Informations about your dataframe:\n",
         "Number of rows: ",rown,"\n",
         "number of columns: ",coln,"\n\n",
-        "Types of columns:\n ")
+        "Classes of columns:\n ")
     for(i in 1:coln){
-      cat("-",names(types[i])," - ",types[i],"\n ")
+      cat("-",names(classes[i])," - ",classes[i],"\n ")
     }
   }
-  res<-list(nrow=rown,ncol=coln,types=types)
+  res<-list(nrow=rown,ncol=coln,classes=classes)
   return(invisible(res))
 }
 
