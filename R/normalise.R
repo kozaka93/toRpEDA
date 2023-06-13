@@ -46,6 +46,9 @@ normalise <- function(x, variables = colnames(x[, which(sapply(x, is.numeric))])
   }
 
   x <- as.data.frame(x[, variables])
+  x <- x[, which(apply(x, 2, function(x) length(unique(x)) > 5))] # zakładam, że
+  # powyżej heurystycznej liczby 5 różnych wartości mamy do czynienia ze zmienną
+  # ilościową
 
   if(!all(sapply(x, is.numeric))){
     stop("Given variables are not of numeric type.")
