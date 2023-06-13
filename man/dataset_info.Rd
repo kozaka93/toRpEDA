@@ -17,12 +17,12 @@ If FALSE, only returns the information as a list.}
 \value{
 If \code{info} is TRUE, the function prints the information about the
 dataframe and returns an invisible list containing the number of rows and
-columns, and the data types of the columns. If \code{info} is FALSE, the
+columns, and classes of the columns. If \code{info} is FALSE, the
 function only returns the list.
 }
 \description{
 This function provides information about a given dataframe, including the
-number of rows and columns, as well as the data types of the columns.
+number of rows and columns, as well as the classes of the columns.
 }
 \examples{
 library(toRpEDA)
