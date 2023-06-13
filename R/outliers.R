@@ -1,12 +1,12 @@
-library(isotree)
-library(glue)
-library(dplyr)
 #' Function that finds potential outlier observations
 #' @param df A dataframe
 #' @param variables column names of given dataframe to process. By default all colnames of dataframe.
 #' @return An information about outliers as a message
 #' It informed about outliers in individual columns and in all dataset.
 #'
+#' @import glue isotree dplyr
+#'
+#' @export
 #' @examples
 #' library(isotree)
 #' library(toRpEDA)
@@ -51,7 +51,7 @@ outliers <- function(df, variables = NULL) {
     }
     if(length(df)>1){
       df <- select_if(df, is.numeric)
-      model <- isolation.forest(df, nthreads=1)
+      model <- isotree::isolation.forest(df, nthreads=1)
       pred <- predict(model, df)
       out <- seq(1, nrow(df))[pred > 0.75]
       mess <- glue(mess, 'Based on all columns: ')
