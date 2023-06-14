@@ -13,6 +13,7 @@ test_that("errors and warnings work properly - types of inputs", {
 test_that("errors and warnings work properly - characteristics of variables", {
   # categorical warning
   expect_warning(normalise(mtcars, variables = "vs"))
+  expect_message(normalise(mtcars, variables = "carb"))
 
   # constant variable warning
   df <- data.frame(const_col = 1, some_col = seq(1, 10, 0.5))

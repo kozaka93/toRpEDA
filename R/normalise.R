@@ -46,9 +46,6 @@ normalise <- function(x, variables = colnames(x[, which(sapply(x, is.numeric))])
   }
 
   x <- as.data.frame(x[, variables])
-  x <- x[, which(apply(x, 2, function(x) length(unique(x)) > 5))] # zakładam, że
-  # powyżej heurystycznej liczby 5 różnych wartości mamy do czynienia ze zmienną
-  # ilościową
 
   if(!all(sapply(x, is.numeric))){
     stop("Given variables are not of numeric type.")
@@ -77,12 +74,15 @@ normalise <- function(x, variables = colnames(x[, which(sapply(x, is.numeric))])
     which_const <- which(apply(x, 2, function(x)
       max(x, na.rm = TRUE) - min(x, na.rm = TRUE)) < 0.00000001)
   }
-
-  if(any(0 == apply(apply(x, 2, function(x) x%%1), 2, function(x)
-    sum(x, na.rm = TRUE)))){
-    warning("Some of given data columns are categorical, whereas normalisation
+                               
+  if(any(0 == apply(apply(x, 2, function(x) x%%1), 2, function(x) sum(x, na.rm = TRUE)))){
+    if(any(apply(x, 2, function(x) length(unique(x)) > 5))){
+    message("Some of given data columns might be categorical, whereas
+            normalisation should be used for continuous data.")
+    } else {
+      warning("Some of given data columns are categorical, whereas normalisation
             should be used for continuous data.")
-    # which_cat <- which(apply(x, 2, function(x) x%%1) == 0)
+    }
   }
 
 
