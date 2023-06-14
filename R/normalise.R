@@ -11,7 +11,7 @@
 #' is present?
 #'
 #' @return Data frame inputed with normalised chosen columns.
-#'
+#' @import stats
 #' @examples
 #' library('toRpEDA')
 #'
