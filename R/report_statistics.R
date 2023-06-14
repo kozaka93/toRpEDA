@@ -10,12 +10,12 @@
 #' a histogram and correlation matrix for quantitative variables, and barplots 
 #' for qualitative variables.
 #' @export
-#'
+#' @import dplyr
+#' 
 #' @examples
 #' \dontrun{
 #' report_statistics(iris, output_file = "iris_statistics_report.html")
 #' }
-#' library(toRpEDA)
 
 report <-
   function(df,

@@ -63,7 +63,9 @@ categorical_df <- df %>% select_if(function(col) is.factor(col) | is.character(c
 categorical_df_names = colnames(categorical_df)
 for (i in 1:(length(categorical_df_names))) {
   cat("Variable name: **", categorical_df_names[[i]], "**\n", sep="")
-  plot_bar_qual(df, categorical_df_names[[i]])
+  cat("\n")
+  p <- plot_bar_qual(df, categorical_df_names[[i]])
+  print(p)
 }
 ```
 
