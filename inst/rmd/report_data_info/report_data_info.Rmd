@@ -22,55 +22,58 @@ This report provides a comprehensive analysis of the dataset, presented in the f
 
 # Dim & types 
 
-```{r}
-dataset_info <- dataset_info(df, info = FALSE)
+```{r, echo=FALSE}
+dataset_info_list <- dataset_info(df, info = FALSE)
 ```
-The dataset contains **`r dataset_info$nrow`** rows and **`r dataset_info$ncol`** columns.
+The dataset contains **`r dataset_info_list$nrow`** rows and **`r dataset_info_list$ncol`** columns.
 
 
-```{r}
-dataset_info <- data.frame(
-  Feature = names(dataset_info$types),
-  Type = dataset_info$types
+```{r, echo=FALSE}
+dataset_info_df <- data.frame(
+  Feature = names(dataset_info_list$types),
+  Type = dataset_info_list$types
 )
-row.names(dataset_info) <- NULL
-dataset_info
+rownames(dataset_info_df) <- NULL
+dataset_info_df
 ```
 
 # Missing values
 
 ### Table
-```{r}
+```{r, echo=FALSE}
 missing_values  <- find_missing_values(df, variables)
 missing_values$Table
 ```
 
 ### Barplot of missing values
 
-```{r}
+```{r, echo=FALSE}
+message <- NULL
 if(any(missing_values$Table[2] != 0)){
   missing_values$Diagram
 } else{
-  cat("There are no missing values, so a barplot is not needed.")
+  message <- "There are no missing values, so a barplot is not needed."
 }
 ```
+`r message`
 
 # Redundant columns
 
-```{r}
+```{r, echo=FALSE, message = FALSE, warning=FALSE, error=FALSE}
 redundant_columns <- redundant_cols(df, variables)
 
 if (identical(redundant_cols(df), character(0))){
-  cat("No reduncant columns found")
+  message <- "No reduncant columns found"
 } else{
   redundant_df <- data.frame(Redundant_Columns = redundant_columns)
   redundant_df
 }
 ```
+`r message`
 
 # Outliers
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 outliers_message <- outliers(df, variables)
 
 sentences <- strsplit(outliers_message, "\\. ")[[1]]
@@ -103,7 +106,7 @@ Here we look at three types of analyses: integer, boolean, and numeric.
 - **Numeric**: The column could potentially be converted into a numeric type, often when numeric values are stored as text with a comma as the decimal separator.
 
 
-```{r}
+```{r, echo=FALSE}
 atypical_values_results <- atypical_values(df, variables)
 atypical_values_df <- data.frame(atypical_values_results)
 atypical_values_df <- data.frame(Variable = rownames(atypical_values_df), atypical_values_df, row.names = NULL)
