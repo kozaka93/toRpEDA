@@ -53,7 +53,7 @@ test_that("finding highly correlated columns works", {
   expect_equal(redundant_cols(df, correlated = TRUE), c("cyl", "hp"))
 })
 
-test_that("finding duplicate columns works", {
+test_that("finding duplicated columns works", {
   df <- iris
   df$something <- df$Sepal.Length
   expect_equal(redundant_cols(df), "something")
@@ -62,7 +62,7 @@ test_that("finding duplicate columns works", {
 test_that("corr_treshold works without setting correlated", {
   df <- mtcars
   df$variable <- df$hp * 5
-  expect_equal(redundant_cols(df, corr_treshold = 0.8), c("cyl", "hp"))
+  expect_equal(redundant_cols(df, corr_treshold = 0.8), c("mpg", "cyl", "disp", "hp"))
 })
 
 test_that("columns with unique float values aren't treated as index", {
@@ -70,4 +70,9 @@ test_that("columns with unique float values aren't treated as index", {
   df$col1 <- df$Sepal.Length + rnorm(length(df$Sepal.Length), 0, 0.3)
   df$col2 <- df$Sepal.Length + rnorm(length(df$Sepal.Length), 0, 1)
   expect_equal(redundant_cols(df, correlated = TRUE), c("Petal.Length", "Sepal.Length"))
+})
+
+test_that("finding duplicated columns with the same names works", {
+  iris_double <- cbind(iris, iris)
+  expect_equal(length(redundant_cols(iris_double)), 5)
 })

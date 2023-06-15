@@ -2,7 +2,7 @@
 % Please edit documentation in R/PCA.R
 \name{PCA}
 \alias{PCA}
-\title{This function returns principal components and their associated eigenvectors - PCA}
+\title{This function returns principal components and their associeted eigenvectors - PCA}
 \usage{
 PCA(df, standardize = TRUE, plot_explained_variance = TRUE)
 }

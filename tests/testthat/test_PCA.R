@@ -3,4 +3,3 @@ test_that("Czy wykrywa NULL/NA 1", {expect_error(PCA(data.frame(x1 = c(1,2,NULL)
 test_that("Czy wykrywa NULL/NA 2", {expect_error(PCA(data.frame(x1 = c(1,2,NA))))})
 test_that("Numeryczne", {expect_error( PCA( data.frame( x1 = c("xdxd",2,4) ) ) )})
 test_that("Standaryzacja", {expect_message( PCA( data.frame( x1 = c(1,2,3,4,5,6,7)) ) )})
-
