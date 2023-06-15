@@ -1,5 +1,3 @@
-library(ggplot2)
-library(patchwork)
 #'plot_hist_vars
 #'@description
 #'The plot_hist_vars function creates a series of histogram plots for
@@ -35,6 +33,7 @@ library(patchwork)
 #'plot_hist_vars(iris)
 
 
+
 plot_hist_vars <- function(data, vars, plots_per_page = 6) {
   all_numeric_vars_idx <- sapply(data, is.numeric)
 
@@ -44,7 +43,7 @@ plot_hist_vars <- function(data, vars, plots_per_page = 6) {
   }
 
   if (missing(vars)) {
-    data_numeric <- data[, all_numeric_vars_idx]
+    data_numeric <- data[, all_numeric_vars_idx, drop=FALSE]
 
   } else {
 
@@ -71,12 +70,13 @@ plot_hist_vars <- function(data, vars, plots_per_page = 6) {
   plots <- vector("list", ncol(data_numeric))
 
   for (i in 1:ncol(data_numeric)) {
-      plot <-  ggplot(data = data_numeric, aes_string(x = colnames(data_numeric)[i])) +
-               geom_histogram(fill = "#F8766D", alpha = 0.8, bins=30) +
-               labs(title = colnames(data_numeric)[i], x = "Value", y = "Frequency") +
-               ggtitle(paste("Histogram of", colnames(data_numeric)[i])) +
-               xlab(colnames(data_numeric)[i])
-      plots[[i]] <- plot
+    plot <-  ggplot(data = data_numeric, aes_string(x = colnames(data_numeric)[i])) +
+      geom_histogram(fill = colors_discrete_torpeda(1), bins=30) +
+      labs(title = colnames(data_numeric)[i], x = "Value", y = "Frequency") +
+      ggtitle(paste("Histogram of", colnames(data_numeric)[i])) +
+      xlab(colnames(data_numeric)[i]) +
+      theme_torpeda()
+    plots[[i]] <- plot
   }
 
   n_pages <- ceiling(length(plots) / plots_per_page)
@@ -88,7 +88,4 @@ plot_hist_vars <- function(data, vars, plots_per_page = 6) {
     page <- patchwork::wrap_plots(page_plots, nrow = 2, ncol = 3)
     print(page)
   }
-
-  return(plots)
 }
-
