@@ -1,7 +1,7 @@
 #' QQ Plot
 #'
 #'
-#' The qqplot function generates a QQ plot for a given dataset or a vector. By default, it plots the QQ plot against the standard normal distribution. However, if a vector y is provided, it will plot the QQ plot against a different specified distribution.
+#' The qqplot function generates up to 9 QQ plots for a given dataset or a vector. By default, it plots the QQ plot against the standard normal distribution. However, if a vector y is provided, it will plot the QQ plot against a different specified distribution.
 #'
 #' @param data A matrix, data frame or numeric vector, which is sample for qqplot.
 #' @param y An optional vector specifying the values of a custom distribution to compare against the dataset's quantiles. If provided, the QQ plot will be generated using this custom distribution instead of the standard normal distribution.
@@ -26,29 +26,28 @@
 
 qqplot <- function(data, y = NULL, variables = NULL) {
 
-    # checking if all parameters are appropriate
-    if (!is.matrix(data) & !is.data.frame(data) & !is.vector(data)) {
+    if (!any(is.matrix(data), is.data.frame(data), is.vector(data))){
       stop("Argument 'data' must be a data frame, a matrix or a vector.")
-      }
+    }
 
-    if (!is.vector(data) & !is.null(variables) & is.character(variables)) {
+    if (!any(is.vector(data), is.null(variables), !is.character(variables))){
       if (all(variables %in% colnames(data))) {
         data <- data[, variables]
         } else {
           stop("The dataset does not contain the required columns. Please check that the specified column names are spelled correctly and exist in the dataset.")
           }
       }
-  else if (!is.null(variables) & !is.character(variables)) {
+  else if (!any(is.null(variables), is.character(variables))) {
     stop("Invalid variable type used in function. Argument 'variables' must be NULL (deafult) or a character vector.")
   }
 
-  if (!is.null(y) & !is.numeric(y) & !is.vector(y)) {
+  if (!any(is.null(y), is.numeric(y), is.vector(y))) {
     stop("Argument 'y' must be NULL (deafult) or a numeric vector.")
   }
 
     # selecting only numeric variables
-    if (!is.vector(data) & !all(sapply(data, is.numeric))) {
-      if (all(!sapply(data, is.numeric))) {
+    if (!any(is.vector(data), sapply(data, is.numeric))) {
+      if (!any(sapply(data, is.numeric))) {
         stop("All variables are non-numeric.")
         } else{
           data <- data[, sapply(data, is.numeric)]
