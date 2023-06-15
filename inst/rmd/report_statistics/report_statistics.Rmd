@@ -27,19 +27,28 @@ This report provides descriptive statistics about the dataset, presented in the 
 ### Categorical variables
 ```{r descriptive_stat1, results='asis', echo=FALSE}
 descriptive_stats <- get_descriptive_stat(df)
-for (i in 1:(length(descriptive_stats) - 1)) {
+categorical_variables_stats <- descriptive_stats[-length(descriptive_stats)]
+if (length(categorical_variables_stats) > 0){
+  for (i in 1:(length(categorical_variables_stats))) {
   list_name <- names(descriptive_stats)[i]
   list_values <- descriptive_stats[[i]]
   
   cat("Variable name: **", list_name, "**\n", sep="")
   print(knitr::kable(list_values, 
                       align = "c"))
+  }
+} else {
+  cat("No categorical variables in this dataframe.")
 }
 ```
 
 ### Continuous variables
 ```{r descriptive_stat2, results='asis', echo=FALSE}
-knitr::kable(descriptive_stats[[length(descriptive_stats)]])
+if ("ContinuousVariables" %in% names(descriptive_stats)){
+  knitr::kable(descriptive_stats[[length(descriptive_stats)]])
+} else {
+  cat("No continuous variables in this dataframe.")
+}
 ```
 
 ## Correlation matrix
@@ -61,11 +70,15 @@ histograms <- plot_hist_vars(df)
 ```{r barplots, echo=FALSE, results='asis', warning=FALSE}
 categorical_df <- df %>% select_if(function(col) is.factor(col) | is.character(col))
 categorical_df_names = colnames(categorical_df)
-for (i in 1:(length(categorical_df_names))) {
-  cat("Variable name: **", categorical_df_names[[i]], "**\n", sep="")
-  cat("\n")
-  p <- plot_bar_qual(df, categorical_df_names[[i]])
-  print(p)
+if (length(categorical_df_names) >= 1){
+  for (i in 1:(length(categorical_df_names))) {
+    cat("Variable name: **", categorical_df_names[[i]], "**\n", sep="")
+    cat("\n")
+    p <- plot_bar_qual(df, categorical_df_names[[i]])
+    print(p)
+  }
+} else {
+  cat("No categorical variables in this dataframe.")
 }
 ```
 
