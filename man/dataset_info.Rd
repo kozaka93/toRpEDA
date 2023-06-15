@@ -4,10 +4,12 @@
 \alias{dataset_info}
 \title{Dataset Information}
 \usage{
-dataset_info(df, info = TRUE)
+dataset_info(df, variables = NULL, info = TRUE)
 }
 \arguments{
 \item{df}{A dataframe or matrix to analyze}
+
+\item{variables}{An optional character string giving a variables for computing correlation matrix. This must be colnames from df.}
 
 \item{info}{Logical; if TRUE (default), prints information about the dataframe.
 If FALSE, only returns the information as a list.}
@@ -15,12 +17,12 @@ If FALSE, only returns the information as a list.}
 \value{
 If \code{info} is TRUE, the function prints the information about the
 dataframe and returns an invisible list containing the number of rows and
-columns, and the data types of the columns. If \code{info} is FALSE, the
+columns, and classes of the columns. If \code{info} is FALSE, the
 function only returns the list.
 }
 \description{
 This function provides information about a given dataframe, including the
-number of rows and columns, as well as the data types of the columns.
+number of rows and columns, as well as the classes of the columns.
 }
 \examples{
 library(toRpEDA)
@@ -30,6 +32,9 @@ dataset_info(mtcars)
 
 #Getting number of rows in a dataframe or matrix
 dataset_info(mtcars,info = FALSE)$nrow
+
+#Selecting columns
+dataset_info(mtcars, variables = c("cyl", "vs", "carb"))
 
 
 }

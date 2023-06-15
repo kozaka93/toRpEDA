@@ -29,7 +29,7 @@ report_data_info <-
     }
 
 
-    input_file_path <- system.file("rmd/raport_data_info", "report_data_info.Rmd", package = "toRpEDA")
+    input_file_path <- system.file("rmd/report_data_info", "report_data_info.Rmd", package = "toRpEDA")
 
     rmarkdown::render(
       input         = input_file_path,
