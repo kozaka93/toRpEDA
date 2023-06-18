@@ -1,0 +1,85 @@
+---
+title: "**toRpEDA statistical report**"
+output:
+  html_document:
+    df_print: paged
+    theme: cosmo
+    toc: true
+    toc_float: true
+date: '`r Sys.time()`'
+params:
+  df: NULL
+  variables: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This report provides descriptive statistics about the dataset, presented in the following sections:
+
+- **Descriptive statistics:** Generates descriptive statistics for a given data frame.
+- **Correlation matrix:** Computes correlation matrix for numeric variables from data.
+- **Histogram:** Creates a series of histogram plots for the numeric variables of a data frame.
+- **Barplots:** Displays bar plots of quality columns of a dataframe.
+
+## Descriptive statistics
+### Categorical variables
+```{r descriptive_stat1, results='asis', echo=FALSE}
+descriptive_stats <- get_descriptive_stat(df)
+categorical_variables_stats <- descriptive_stats[-length(descriptive_stats)]
+if (length(categorical_variables_stats) > 0){
+  for (i in 1:(length(categorical_variables_stats))) {
+  list_name <- names(descriptive_stats)[i]
+  list_values <- descriptive_stats[[i]]
+  
+  cat("Variable name: **", list_name, "**\n", sep="")
+  print(knitr::kable(list_values, 
+                      align = "c"))
+  }
+} else {
+  cat("No categorical variables in this dataframe.")
+}
+```
+
+### Continuous variables
+```{r descriptive_stat2, results='asis', echo=FALSE}
+if ("ContinuousVariables" %in% names(descriptive_stats)){
+  knitr::kable(descriptive_stats[[length(descriptive_stats)]])
+} else {
+  cat("No continuous variables in this dataframe.")
+}
+```
+
+## Correlation matrix
+
+```{r correlation_matrix, echo=FALSE, warning=FALSE}
+correlation_matrix <- cor_matrix(df)
+knitr::kable(correlation_matrix, 
+              align = "c")
+```
+
+## Histograms
+
+```{r histogram, echo=FALSE, warning=FALSE}
+histograms <- plot_hist_vars(df)
+```
+
+## Barplots
+
+```{r barplots, echo=FALSE, results='asis', warning=FALSE}
+categorical_df <- df %>% select_if(function(col) is.factor(col) | is.character(col))
+categorical_df_names = colnames(categorical_df)
+if (length(categorical_df_names) >= 1){
+  for (i in 1:(length(categorical_df_names))) {
+    cat("Variable name: **", categorical_df_names[[i]], "**\n", sep="")
+    cat("\n")
+    p <- plot_bar_qual(df, categorical_df_names[[i]])
+    print(p)
+  }
+} else {
+  cat("No categorical variables in this dataframe.")
+}
+```
+
+
